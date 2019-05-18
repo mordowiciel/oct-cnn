@@ -1,0 +1,12 @@
+2019-02-15 22:33:27,710 [oct-cnn] INFO - Starting CNN training.
+2019-02-15 22:33:27,711 [oct-cnn] INFO - Architecture: LENET
+2019-02-15 22:33:27,711 [oct-cnn] INFO - Image resolution: (248, 256)
+2019-02-15 22:33:27,711 [oct-cnn] INFO - Loss function: mean_squared_error
+2019-02-15 22:33:27,711 [oct-cnn] INFO - Optimizer: rmsprop
+2019-02-15 22:33:27,711 [oct-cnn] INFO - Batch size: 20
+2019-02-15 22:33:27,711 [oct-cnn] INFO - Epochs: 5
+2019-02-15 23:02:48,502 [oct-cnn] INFO - Model training complete.
+2019-02-15 23:02:48,504 [oct-cnn] INFO - Training evaluation:
+2019-02-15 23:02:48,505 [oct-cnn] INFO - Test loss: 0.05997604545759591
+2019-02-15 23:02:48,510 [oct-cnn] INFO - Test accuracy: 0.8662162149274671
+2019-02-15 23:02:48,510 [oct-cnn] INFO - Saving model at path ..\models\LENET-2019-02-15T22-33-27-mean_squared_error-rmsprop.h5

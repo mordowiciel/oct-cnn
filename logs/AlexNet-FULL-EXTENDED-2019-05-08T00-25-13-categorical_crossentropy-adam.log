@@ -1,0 +1,16 @@
+2019-05-08 00:25:13,471 [oct-cnn] INFO - Starting CNN training.
+2019-05-08 00:25:13,471 [oct-cnn] INFO - Architecture: AlexNet
+2019-05-08 00:25:13,472 [oct-cnn] INFO - Image resolution: (124, 128)
+2019-05-08 00:25:13,472 [oct-cnn] INFO - Training dataset path: ..\dataset\full\train
+2019-05-08 00:25:13,472 [oct-cnn] INFO - Test dataset path: ..\dataset\full\test
+2019-05-08 00:25:13,472 [oct-cnn] WARNING - USING EXTENDED TEST DATA GENERATOR
+2019-05-08 00:25:13,472 [oct-cnn] INFO - Loss function: categorical_crossentropy
+2019-05-08 00:25:13,472 [oct-cnn] INFO - Optimizer: adam
+2019-05-08 00:25:13,472 [oct-cnn] INFO - Batch size: 20
+2019-05-08 00:25:13,473 [oct-cnn] INFO - Epochs: 5
+2019-05-08 00:25:26,179 [oct-cnn] INFO - None
+2019-05-08 02:17:57,433 [oct-cnn] INFO - Model training complete.
+2019-05-08 02:17:57,441 [oct-cnn] INFO - Training evaluation:
+2019-05-08 02:17:57,441 [oct-cnn] INFO - Test loss: 1.5951017069816589
+2019-05-08 02:17:57,448 [oct-cnn] INFO - Test accuracy: 0.2500000027753413
+2019-05-08 02:17:57,448 [oct-cnn] INFO - Saving model at path ..\models\AlexNet-2019-05-08T00-25-13-categorical_crossentropy-adam.h5

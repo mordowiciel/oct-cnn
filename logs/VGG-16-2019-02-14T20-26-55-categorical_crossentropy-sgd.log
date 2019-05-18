@@ -1,0 +1,12 @@
+2019-02-14 20:26:55,350 [oct-cnn] INFO - Starting CNN training.
+2019-02-14 20:26:55,351 [oct-cnn] INFO - Architecture: VGG16
+2019-02-14 20:26:55,351 [oct-cnn] INFO - Image resolution: (248, 256)
+2019-02-14 20:26:55,351 [oct-cnn] INFO - Loss function: categorical_crossentropy
+2019-02-14 20:26:55,351 [oct-cnn] INFO - Optimizer: sgd
+2019-02-14 20:26:55,351 [oct-cnn] INFO - Batch size: 4
+2019-02-14 20:26:55,351 [oct-cnn] INFO - Epochs: 5
+2019-02-15 04:56:29,194 [oct-cnn] INFO - Model training complete.
+2019-02-15 04:56:29,201 [oct-cnn] INFO - Training evaluation:
+2019-02-15 04:56:29,201 [oct-cnn] INFO - Test loss: 0.10504027397336779
+2019-02-15 04:56:29,211 [oct-cnn] INFO - Test accuracy: 0.9637096774193549
+2019-02-15 04:56:29,211 [oct-cnn] INFO - Saving model at path ..\models\VGG16-2019-02-14T20-26-55-categorical_crossentropy-sgd.h5

@@ -1,0 +1,16 @@
+2019-05-04 22:10:26,949 [oct-cnn] INFO - Starting CNN training.
+2019-05-04 22:10:26,949 [oct-cnn] INFO - Architecture: LeNet
+2019-05-04 22:10:26,950 [oct-cnn] INFO - Image resolution: (124, 128)
+2019-05-04 22:10:26,950 [oct-cnn] INFO - Training dataset path: ..\dataset\full\train
+2019-05-04 22:10:26,950 [oct-cnn] INFO - Test dataset path: ..\dataset\full\test
+2019-05-04 22:10:26,950 [oct-cnn] WARNING - USING EXTENDED TEST DATA GENERATOR
+2019-05-04 22:10:26,950 [oct-cnn] INFO - Loss function: categorical_crossentropy
+2019-05-04 22:10:26,951 [oct-cnn] INFO - Optimizer: adam
+2019-05-04 22:10:26,951 [oct-cnn] INFO - Batch size: 20
+2019-05-04 22:10:26,952 [oct-cnn] INFO - Epochs: 5
+2019-05-04 22:10:40,483 [oct-cnn] INFO - None
+2019-05-04 23:54:26,019 [oct-cnn] INFO - Model training complete.
+2019-05-04 23:54:26,022 [oct-cnn] INFO - Training evaluation:
+2019-05-04 23:54:26,022 [oct-cnn] INFO - Test loss: 0.5202672713855282
+2019-05-04 23:54:26,029 [oct-cnn] INFO - Test accuracy: 0.8523749987781047
+2019-05-04 23:54:26,029 [oct-cnn] INFO - Saving model at path ..\models\LeNet-2019-05-04T22-10-26-categorical_crossentropy-adam.h5

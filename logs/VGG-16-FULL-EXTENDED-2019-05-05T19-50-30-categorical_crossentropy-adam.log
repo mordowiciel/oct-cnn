@@ -1,0 +1,16 @@
+2019-05-05 19:50:30,133 [oct-cnn] INFO - Starting CNN training.
+2019-05-05 19:50:30,134 [oct-cnn] INFO - Architecture: VGG-16
+2019-05-05 19:50:30,134 [oct-cnn] INFO - Image resolution: (124, 128)
+2019-05-05 19:50:30,134 [oct-cnn] INFO - Training dataset path: ..\dataset\full\train
+2019-05-05 19:50:30,135 [oct-cnn] INFO - Test dataset path: ..\dataset\full\test
+2019-05-05 19:50:30,135 [oct-cnn] WARNING - USING EXTENDED TEST DATA GENERATOR
+2019-05-05 19:50:30,135 [oct-cnn] INFO - Loss function: categorical_crossentropy
+2019-05-05 19:50:30,135 [oct-cnn] INFO - Optimizer: adam
+2019-05-05 19:50:30,135 [oct-cnn] INFO - Batch size: 20
+2019-05-05 19:50:30,135 [oct-cnn] INFO - Epochs: 5
+2019-05-05 19:50:46,466 [oct-cnn] INFO - None
+2019-05-05 22:55:57,022 [oct-cnn] INFO - Model training complete.
+2019-05-05 22:55:57,024 [oct-cnn] INFO - Training evaluation:
+2019-05-05 22:55:57,024 [oct-cnn] INFO - Test loss: 12.088571560382842
+2019-05-05 22:55:57,029 [oct-cnn] INFO - Test accuracy: 0.2500000029988587
+2019-05-05 22:55:57,030 [oct-cnn] INFO - Saving model at path ..\models\VGG-16-2019-05-05T19-50-30-categorical_crossentropy-adam.h5

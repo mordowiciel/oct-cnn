@@ -1,0 +1,12 @@
+2019-02-16 12:12:55,515 [oct-cnn] INFO - Starting CNN training.
+2019-02-16 12:12:55,516 [oct-cnn] INFO - Architecture: VGG-16
+2019-02-16 12:12:55,516 [oct-cnn] INFO - Image resolution: (124, 128)
+2019-02-16 12:12:55,516 [oct-cnn] INFO - Loss function: mean_squared_error
+2019-02-16 12:12:55,516 [oct-cnn] INFO - Optimizer: rmsprop
+2019-02-16 12:12:55,516 [oct-cnn] INFO - Batch size: 8
+2019-02-16 12:12:55,516 [oct-cnn] INFO - Epochs: 5
+2019-02-16 14:31:30,364 [oct-cnn] INFO - Model training complete.
+2019-02-16 14:31:30,366 [oct-cnn] INFO - Training evaluation:
+2019-02-16 14:31:30,366 [oct-cnn] INFO - Test loss: 0.3810483870967742
+2019-02-16 14:31:30,374 [oct-cnn] INFO - Test accuracy: 0.23790322580645162
+2019-02-16 14:31:30,375 [oct-cnn] INFO - Saving model at path ..\models\VGG-16-2019-02-16T12-12-55-mean_squared_error-rmsprop.h5

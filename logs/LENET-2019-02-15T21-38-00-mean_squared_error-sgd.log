@@ -1,0 +1,12 @@
+2019-02-15 21:38:00,744 [oct-cnn] INFO - Starting CNN training.
+2019-02-15 21:38:00,744 [oct-cnn] INFO - Architecture: LENET
+2019-02-15 21:38:00,744 [oct-cnn] INFO - Image resolution: (248, 256)
+2019-02-15 21:38:00,745 [oct-cnn] INFO - Loss function: mean_squared_error
+2019-02-15 21:38:00,745 [oct-cnn] INFO - Optimizer: sgd
+2019-02-15 21:38:00,745 [oct-cnn] INFO - Batch size: 20
+2019-02-15 21:38:00,745 [oct-cnn] INFO - Epochs: 5
+2019-02-15 22:06:41,461 [oct-cnn] INFO - Model training complete.
+2019-02-15 22:06:41,464 [oct-cnn] INFO - Training evaluation:
+2019-02-15 22:06:41,464 [oct-cnn] INFO - Test loss: 0.14347482895528949
+2019-02-15 22:06:41,472 [oct-cnn] INFO - Test accuracy: 0.5635135133524198
+2019-02-15 22:06:41,472 [oct-cnn] INFO - Saving model at path ..\models\LENET-2019-02-15T21-38-00-mean_squared_error-sgd.h5

@@ -1,0 +1,16 @@
+2019-05-06 00:19:05,842 [oct-cnn] INFO - Starting CNN training.
+2019-05-06 00:19:05,842 [oct-cnn] INFO - Architecture: VGG-16
+2019-05-06 00:19:05,843 [oct-cnn] INFO - Image resolution: (124, 128)
+2019-05-06 00:19:05,843 [oct-cnn] INFO - Training dataset path: ..\dataset\full\train
+2019-05-06 00:19:05,843 [oct-cnn] INFO - Test dataset path: ..\dataset\full\test
+2019-05-06 00:19:05,843 [oct-cnn] WARNING - USING EXTENDED TEST DATA GENERATOR
+2019-05-06 00:19:05,843 [oct-cnn] INFO - Loss function: mean_squared_error
+2019-05-06 00:19:05,843 [oct-cnn] INFO - Optimizer: sgd
+2019-05-06 00:19:05,843 [oct-cnn] INFO - Batch size: 20
+2019-05-06 00:19:05,844 [oct-cnn] INFO - Epochs: 5
+2019-05-06 00:19:19,108 [oct-cnn] INFO - None
+2019-05-06 03:13:20,298 [oct-cnn] INFO - Model training complete.
+2019-05-06 03:13:20,300 [oct-cnn] INFO - Training evaluation:
+2019-05-06 03:13:20,301 [oct-cnn] INFO - Test loss: 0.14773537948727608
+2019-05-06 03:13:20,306 [oct-cnn] INFO - Test accuracy: 0.5305000014603138
+2019-05-06 03:13:20,306 [oct-cnn] INFO - Saving model at path ..\models\VGG-16-2019-05-06T00-19-05-mean_squared_error-sgd.h5
