@@ -31,7 +31,7 @@ def resolve_item_label(filepath):
     return img_path.name.split('-')[0]
 
 
-model = load_model('../models/LENET-FULL-2019-04-27T12-20-57-categorical_crossentropy-sgd.h5')
+model = load_model('../models/VGG-16-FULL-2019-04-24T23-53-11-categorical_crossentropy-sgd.h5')
 global_count = 0
 global_accurate_count = 0
 
@@ -41,6 +41,15 @@ accurate_class_count_map = {'CNV': 0, 'DME': 0, 'DRUSEN': 0, 'NORMAL': 0}
 for filepath in glob.iglob('{}\\**\\*.jpeg'.format('C:/Users/marcinis/Politechnika/sem8/inz/dataset/full/test'),
                            recursive=True):
     global_count += 1
+
+    # TODO: dlaczego jest tak drastyczna roznica w precyzji?
+    # TODO: typ pozostaje ten sam
+    # img = np.empty((1, *IMG_SIZE, 1), dtype=np.float64)
+    #
+    # img_arr = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE) / 255.0
+    # img[0] = skimage.transform.resize(img_arr, IMG_SIZE + (1,))
+
+    # float64
     img_arr = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE) / 255.0
     img = skimage.transform.resize(img_arr, (1,) + IMG_SIZE + (1,))
 
@@ -68,11 +77,3 @@ print('Percentages of class predictions: %s' % get_class_percentage_info(class_c
 all = sum(class_count_map.values())
 accurate = sum(accurate_class_count_map.values())
 print('Global percentage precision: %s / %s (%.6f %%)' % (accurate, all, accurate / all))
-#     count_info = str(global_accurate_count) + '/' + str(global_count)
-#     perc_info = global_accurate_count / global_count
-#     print('Accuracy is %s (%.6f %%)' % (count_info, perc_info))
-#
-#
-# count_info = str(global_accurate_count) + '/' + str(global_count)
-# perc_info = global_accurate_count / global_count
-# print('Global accuracy is %s (%.6f %%)' % (count_info, perc_info))

@@ -4,7 +4,7 @@ import sys
 
 from alexnet import AlexNet
 from extended_test_data_generator import ExtendedTestDataGenerator
-from lenet import LeNet
+from lenet import LeNet, LeNet5
 from oct_data_generator import *
 
 ''' Notes:
@@ -36,7 +36,8 @@ TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
 if TRAINING_DATA_PATH == '..\\dataset\\full\\train':
     file_handler = logging.FileHandler('../logs/{}-FULL-{}-{}-{}.log'.format(ARCHITECTURE, TIMESTAMP, LOSS, OPTIMIZER))
     if EXTENDED_TEST_DATA:
-        file_handler = logging.FileHandler('../logs/{}-FULL-EXTENDED-{}-{}-{}.log'.format(ARCHITECTURE, TIMESTAMP, LOSS, OPTIMIZER))
+        file_handler = logging.FileHandler(
+            '../logs/{}-FULL-EXTENDED-{}-{}-{}.log'.format(ARCHITECTURE, TIMESTAMP, LOSS, OPTIMIZER))
 else:
     file_handler = logging.FileHandler('../logs/{}-{}-{}-{}.log'.format(ARCHITECTURE, TIMESTAMP, LOSS, OPTIMIZER))
 
@@ -97,6 +98,8 @@ if __name__ == '__main__':
 
     if ARCHITECTURE == "LeNet":
         model = LeNet(INPUT_SHAPE, KERNEL_SIZE)
+    if ARCHITECTURE == "LeNet5":
+        model = LeNet5(INPUT_SHAPE, class_count=4)
     elif ARCHITECTURE == "VGG-16":
         model = keras.applications.vgg16.VGG16(include_top=True, weights=None,
                                                input_tensor=None, input_shape=INPUT_SHAPE,
