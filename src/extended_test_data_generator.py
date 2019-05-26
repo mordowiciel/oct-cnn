@@ -73,6 +73,8 @@ class ExtendedTestDataGenerator(keras.utils.Sequence):
                            recursive=True)):
             normal_paths.append(filepath)
 
+        # Always generate same random sample
+        random.seed(666)
         item_paths = [random.sample(cnv_paths, 2000),
                       random.sample(dme_paths, 2000),
                       random.sample(drusen_paths, 2000),
