@@ -17,6 +17,7 @@ class ExtendedTestDataGenerator(keras.utils.Sequence):
         self.batch_size = batch_size
         self.dataset_path = dataset_path
         self.item_paths = self.__get_item_paths()
+        self.item_labels = [self.__resolve_item_label(filepath) for filepath in self.item_paths]
         self.n_channels = n_channels
         self.n_classes = n_classes
         self.shuffle = shuffle

@@ -52,11 +52,10 @@ def manually_evaluate_model(model, test_data_filepaths, img_size):
 
         global_accurate_count += 1
 
-        log.info('Predicition for %s : %s (%s)' % (os.path.basename(filepath), res, predicted_label))
-        log.info('Class count: %s' % class_count_map)
-        log.info('Accurate predictions class count : %s' % accurate_class_count_map)
+        log.debug('Predicition for %s : %s (%s)' % (os.path.basename(filepath), res, predicted_label))
+        log.debug('Class count: %s' % class_count_map)
+        log.debug('Accurate predictions class count : %s' % accurate_class_count_map)
 
-    log.info()
     log.info('Global data:')
     log.info('Class count: %s' % class_count_map)
     log.info('Accurate predictions class count : %s' % accurate_class_count_map)

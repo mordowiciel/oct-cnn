@@ -28,8 +28,8 @@ def construct_confusion_matrix_plot(y_true, y_pred):
 
 def resolve_logger_filename():
     log_file_handler = log.handlers[0]
-    log_file_path = log_file_handler.baseFile
-    return os.path.basename(log_file_path)
+    log_file_path = log_file_handler.baseFilename
+    return os.path.splitext(os.path.basename(log_file_path))[0]
 
 
 def evaluate_model(model, test_data_generator):
@@ -43,4 +43,10 @@ def evaluate_model(model, test_data_generator):
 
     # Create and plot confusion matrix
     construct_confusion_matrix_plot(y_true, y_pred)
-    plt.savefig('./logs/cm/%s' % resolve_logger_filename())
+
+    # Before saving the plot, check if cm directory exists
+    if not os.path.exists('../logs/cm'):
+        os.mkdir('../logs/cm')
+
+    # Save the plot
+    plt.savefig('../logs/cm/%s' % resolve_logger_filename())
