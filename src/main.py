@@ -2,11 +2,12 @@ import datetime
 import logging
 import sys
 
-from alexnet import AlexNet
+from emergency_model_evaluator import manually_evaluate_model
 from extended_test_data_generator import ExtendedTestDataGenerator
-from lenet import LeNet5
+from model_evaluator import evaluate_model
+from model_resolver import resolve_model
+from oct_config import OCTConfig
 from oct_data_generator import *
-from octconfig import OCTConfig
 
 ''' Notes:
 * standard LeNet, full size - dziala na batch_size 20
@@ -92,40 +93,27 @@ if __name__ == '__main__':
                                                    n_classes=4,
                                                    shuffle=True)
 
-    if cfg.network_config.architecture == "LeNet":
-        # model = LeNet(cfg.dataset_config.input_shape, KERNEL_SIZE)
-        raise AttributeError('LeNet not supported, use LeNet5 instead')
-    if cfg.network_config.architecture == "LeNet5":
-        model = LeNet5(cfg.dataset_config.input_shape, class_count=4)
-    elif cfg.network_config.architecture == "VGG-16":
-        model = keras.applications.vgg16.VGG16(include_top=True, weights=None,
-                                               input_tensor=None, input_shape=cfg.dataset_config.input_shape,
-                                               pooling=None, classes=4)
-    elif cfg.network_config.architecture == "AlexNet":
-        model = AlexNet(input_shape=cfg.dataset_config.input_shape, classes=4)
-    else:
-        raise AttributeError('Unknown network architecture provided, aborting.')
-
-    log.info(model.summary())
-    model.compile(loss=cfg.network_config.loss_function,
-                  optimizer=cfg.network_config.optimizer,
-                  metrics=['categorical_accuracy'])
-
+    model = resolve_model(cfg)
     model.fit_generator(generator=training_data_generator,
                         validation_data=test_data_generator,
                         use_multiprocessing=False,
                         epochs=cfg.training_config.epochs)
-
     score = model.evaluate_generator(test_data_generator, use_multiprocessing=False,
                                      verbose=0)
+
+    model_path = '..\\models\\{}-{}-{}-{}.h5'.format(cfg.network_config.architecture,
+                                                     TIMESTAMP,
+                                                     cfg.network_config.loss_function,
+                                                     cfg.network_config.optimizer)
+    log.info('Saving model at path %s', model_path)
+    model.save(model_path)
 
     log.info('Model training complete.')
     log.info('Training evaluation:')
     log.info('Test loss: %s', score[0])
     log.info('Test accuracy: %s', score[1])
+    log.info('Creating confusion matrix and calculating metrics')
+    evaluate_model(model, test_data_generator)
+    manually_evaluate_model(model, test_data_generator.item_paths, cfg.dataset_config.img_size)
 
-    model_path = '..\\models\\{}-{}-{}-{}.h5'.format(cfg.network_config.architecture, TIMESTAMP,
-                                                     cfg.network_config.loss_function, cfg.network_config.optimizer)
 
-    log.info('Saving model at path %s', model_path)
-    model.save(model_path)

@@ -44,14 +44,14 @@ for filepath in glob.iglob('{}\\**\\*.jpeg'.format('C:/Users/marcinis/Politechni
 
     # TODO: dlaczego jest tak drastyczna roznica w precyzji?
     # TODO: typ pozostaje ten sam
-    # img = np.empty((1, *IMG_SIZE, 1), dtype=np.float64)
-    #
-    # img_arr = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE) / 255.0
-    # img[0] = skimage.transform.resize(img_arr, IMG_SIZE + (1,))
+    img = np.empty((1, *IMG_SIZE, 1), dtype=np.float64)
 
-    # float64
     img_arr = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE) / 255.0
-    img = skimage.transform.resize(img_arr, (1,) + IMG_SIZE + (1,))
+    img[0] = skimage.transform.resize(img_arr, IMG_SIZE + (1,))
+
+    # # float64
+    # img_arr = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE) / 255.0
+    # img = skimage.transform.resize(img_arr, (1,) + IMG_SIZE + (1,))
 
     res = model.predict(img, verbose=1)
     correct_label = resolve_item_label(filepath)

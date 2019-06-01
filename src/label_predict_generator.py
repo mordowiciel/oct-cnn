@@ -29,6 +29,7 @@ val_data_generator = OCTDataGenerator(dataset_path='C:/Users/marcinis/Politechni
                                       n_classes=4,
                                       shuffle=False)
 
+
 y_true = val_data_generator.item_labels
 y_pred = result_resolver(model.predict_generator(val_data_generator, verbose=1))
 
