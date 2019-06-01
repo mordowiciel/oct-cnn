@@ -1,5 +1,3 @@
-import glob
-import random
 from pathlib import Path
 
 import cv2
@@ -7,6 +5,8 @@ import keras
 import numpy as np
 import skimage
 from skimage.transform import resize
+
+from class_sample_provider import generate_class_sample
 
 
 class ExtendedTestDataGenerator(keras.utils.Sequence):
@@ -22,7 +22,6 @@ class ExtendedTestDataGenerator(keras.utils.Sequence):
         self.n_classes = n_classes
         self.shuffle = shuffle
         self.on_epoch_end()
-
 
     def __len__(self):
         return int(np.floor(len(self.item_paths) / self.batch_size))
@@ -50,39 +49,12 @@ class ExtendedTestDataGenerator(keras.utils.Sequence):
         return x, keras.utils.to_categorical(y, num_classes=self.n_classes)
 
     def __get_item_paths(self):
-        cnv_paths = []
-        for counter, filepath in enumerate(
-                glob.iglob('{}\\CNV\\*.jpeg'.format(self.dataset_path),
-                           recursive=True)):
-            cnv_paths.append(filepath)
-
-        dme_paths = []
-        for counter, filepath in enumerate(
-                glob.iglob('{}\\DME\\*.jpeg'.format(self.dataset_path),
-                           recursive=True)):
-            dme_paths.append(filepath)
-
-        drusen_paths = []
-        for counter, filepath in enumerate(
-                glob.iglob('{}\\DRUSEN\\*.jpeg'.format(self.dataset_path),
-                           recursive=True)):
-            drusen_paths.append(filepath)
-
-        normal_paths = []
-        for counter, filepath in enumerate(
-                glob.iglob('{}\\NORMAL\\*.jpeg'.format(self.dataset_path),
-                           recursive=True)):
-            normal_paths.append(filepath)
-
-        # Always generate same random sample
-        random.seed(666)
-        item_paths = [random.sample(cnv_paths, 2000),
-                      random.sample(dme_paths, 2000),
-                      random.sample(drusen_paths, 2000),
-                      random.sample(normal_paths, 2000)]
+        paths = [generate_class_sample(self.dataset_path, class_name)
+                 for class_name
+                 in ["CNV", "DME", "DRUSEN", "NORMAL"]]
 
         # flatten the list
-        return [item for sublist in item_paths for item in sublist]
+        return [item for sublist in paths for item in sublist]
 
     def __resolve_item_label(self, filepath):
         class_map = {"CNV": 0, "DME": 1, "DRUSEN": 2, "NORMAL": 3}
