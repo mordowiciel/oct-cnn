@@ -16,7 +16,7 @@ def LeNet(input_shape, kernel_size):
     return model
 
 
-def LeNet5(input_shape, class_count):
+def LeNet5(input_shape, classes):
     model = Sequential()
     model.add(Conv2D(6, kernel_size=(5, 5), strides=(1, 1), activation='tanh', input_shape=input_shape,
                      padding="same"))
@@ -26,5 +26,5 @@ def LeNet5(input_shape, class_count):
     model.add(Conv2D(120, kernel_size=(5, 5), strides=(1, 1), activation='tanh', padding='valid'))
     model.add(Flatten())
     model.add(Dense(84, activation='tanh'))
-    model.add(Dense(class_count, activation='softmax'))
+    model.add(Dense(classes, activation='softmax'))
     return model

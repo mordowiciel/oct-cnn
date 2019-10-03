@@ -39,11 +39,16 @@ class ExtendedTestDataGenerator(keras.utils.Sequence):
             np.random.shuffle(self.indexes)
 
     def __data_generation(self, item_paths):
-        x = np.empty((self.batch_size, *self.dim, self.n_channels), dtype=np.float16)
+        x = np.empty((self.batch_size, *self.dim, self.n_channels), dtype=np.float64)
         y = np.empty(self.batch_size, dtype=int)
         for counter, filepath in enumerate(item_paths):
-            img_arr = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE) / 255.0
-            x[counter] = skimage.transform.resize(img_arr, self.dim + (1,))
+            if self.n_channels == 1:
+                img_arr = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE) / 255.0
+                x[counter] = skimage.transform.resize(img_arr, self.dim + (1,))
+            else:
+                img_arr = cv2.imread(filepath)
+                x[counter] = skimage.transform.resize(img_arr, self.dim + (self.n_channels,))
+
             y[counter] = self.__resolve_item_label(filepath)
 
         return x, keras.utils.to_categorical(y, num_classes=self.n_classes)

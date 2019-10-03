@@ -8,20 +8,23 @@ def setup_logger(cfg, TIMESTAMP):
 
     formatter = logging.Formatter('%(asctime)s [%(name)s] %(levelname)s - %(message)s')
     if cfg.dataset.training_dataset_path == '..\\dataset\\full\\train':
-        file_handler = logging.FileHandler('../logs/{}-FULL-{}-{}-{}.log'.format(cfg.network.architecture,
-                                                                                 TIMESTAMP,
-                                                                                 cfg.network.loss_function,
-                                                                                 cfg.network.optimizer))
-        if cfg.dataset_config.generate_extended_test_dataset:
-            file_handler = logging.FileHandler(
-                '../logs/{}-FULL-EXTENDED-{}-{}-{}.log'.format(cfg.network.architecture, TIMESTAMP,
-                                                               cfg.network.loss_function,
-                                                               cfg.network.optimizer))
-    else:
-        file_handler = logging.FileHandler('../logs/{}-{}-{}-{}.log'.format(cfg.network.architecture,
+        file_handler = logging.FileHandler('{}/{}-FULL-{}-{}-{}.log'.format(cfg.misc.logs_path,
+                                                                            cfg.network.architecture,
                                                                             TIMESTAMP,
                                                                             cfg.network.loss_function,
                                                                             cfg.network.optimizer))
+        if cfg.dataset_config.generate_extended_test_dataset:
+            file_handler = logging.FileHandler(
+                '{}/{}-FULL-EXTENDED-{}-{}-{}.log'.format(cfg.misc.logs_path,
+                                                          cfg.network.architecture, TIMESTAMP,
+                                                          cfg.network.loss_function,
+                                                          cfg.network.optimizer))
+    else:
+        file_handler = logging.FileHandler('{}/{}-{}-{}-{}.log'.format(cfg.misc.logs_path,
+                                                                       cfg.network.architecture,
+                                                                       TIMESTAMP,
+                                                                       cfg.network.loss_function,
+                                                                       cfg.network.optimizer))
 
     file_handler.setFormatter(formatter)
 
@@ -45,5 +48,6 @@ def print_cfg(cfg):
         log.warning('USING EXTENDED TEST DATA GENERATOR')
     log.info('Loss function: %s', cfg.network.loss_function)
     log.info('Optimizer: %s', cfg.network.optimizer)
-    log.info('Batch size: %s', cfg.training.batch_size)
+    log.info('Training batch size: %s', cfg.training.training_batch_size)
+    log.info('Test batch size: %s', cfg.training.test_batch_size)
     log.info('Epochs: %s', cfg.training.epochs)

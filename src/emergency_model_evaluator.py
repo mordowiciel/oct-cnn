@@ -29,19 +29,39 @@ def resolve_item_label(filepath):
     return img_path.name.split('-')[0]
 
 
-def manually_evaluate_model(model, test_data_filepaths, img_size):
+def manually_evaluate_model(cfg, model, test_data_filepaths, img_size):
+
+    if cfg.network.architecture == 'VGG-16-TL':
+        n_channels = 3
+    else:
+        n_channels = 1
+
+
     global_count = 0
     global_accurate_count = 0
     class_count_map = {'CNV': 0, 'DME': 0, 'DRUSEN': 0, 'NORMAL': 0}
     accurate_class_count_map = {'CNV': 0, 'DME': 0, 'DRUSEN': 0, 'NORMAL': 0}
 
+    log.info('Starting emergency model evaluation...')
     for filepath in test_data_filepaths:
         global_count += 1
-        img = np.empty((1, *img_size, 1), dtype=np.float64)
-        img_arr = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE) / 255.0
-        img[0] = skimage.transform.resize(img_arr, img_size + (1,))
 
-        res = model.predict(img, verbose=1)
+        # TODO: dodaj wczytywanie dla 3 kanalow (VGG-16-TL)
+
+        if n_channels == 1:
+            img = np.empty((1, *img_size, 1), dtype=np.float64)
+            img_arr = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE) / 255.0
+            img[0] = skimage.transform.resize(img_arr, img_size + (1,))
+        else:
+            img = np.empty((1, *img_size, n_channels), dtype=np.float64)
+            img_arr = cv2.imread(filepath)
+            img[0] = skimage.transform.resize(img_arr, img_size + (n_channels,))
+
+        # img = np.empty((1, *img_size, n_channels), dtype=np.float64)
+        # img_arr = cv2.imread(filepath)
+        # img[0] = skimage.transform.resize(img_arr, img_size + (n_channels,))
+
+        res = model.predict(img, verbose=0)
         correct_label = resolve_item_label(filepath)
         class_count_map[correct_label] += 1
 
@@ -55,6 +75,8 @@ def manually_evaluate_model(model, test_data_filepaths, img_size):
         log.debug('Predicition for %s : %s (%s)' % (os.path.basename(filepath), res, predicted_label))
         log.debug('Class count: %s' % class_count_map)
         log.debug('Accurate predictions class count : %s' % accurate_class_count_map)
+
+    log.info('Emergency model evaluation complete.')
 
     log.info('Global data:')
     log.info('Class count: %s' % class_count_map)

@@ -10,7 +10,8 @@ Resolution count for test dataset: {
 'NORMAL-(768, 496)': 15
 }
 
-Resolution count for train dataset: {'CNV-(512, 496)': 19912,
+Resolution count for train dataset: {
+'CNV-(512, 496)': 19912,
 'CNV-(768, 496)': 12050,
 'CNV-(1536, 496)': 5055,
 'CNV-(1024, 496)': 173,
