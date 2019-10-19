@@ -1,5 +1,6 @@
 import logging
 import os
+from glob import glob
 from pathlib import Path
 
 import cv2
@@ -29,13 +30,17 @@ def resolve_item_label(filepath):
     return img_path.name.split('-')[0]
 
 
-def manually_evaluate_model(cfg, model, test_data_filepaths, img_size):
+def __get_item_paths(dataset_path):
+    return glob('{}\\**\\*.jpeg'.format(dataset_path), recursive=True)
 
+
+def manually_evaluate_model(cfg, model, test_data_dir, img_size):
     if cfg.network.architecture == 'VGG-16-TL':
         n_channels = 3
     else:
         n_channels = 1
 
+    item_paths = __get_item_paths(test_data_dir)
 
     global_count = 0
     global_accurate_count = 0
@@ -43,17 +48,18 @@ def manually_evaluate_model(cfg, model, test_data_filepaths, img_size):
     accurate_class_count_map = {'CNV': 0, 'DME': 0, 'DRUSEN': 0, 'NORMAL': 0}
 
     log.info('Starting emergency model evaluation...')
-    for filepath in test_data_filepaths:
+    for filepath in item_paths:
         global_count += 1
 
         # TODO: dodaj wczytywanie dla 3 kanalow (VGG-16-TL)
+        # TODO: manually nie dziala -> zmienic dtype na float32?
 
         if n_channels == 1:
-            img = np.empty((1, *img_size, 1), dtype=np.float64)
+            img = np.empty((1, *img_size, 1), dtype=np.float32)
             img_arr = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE) / 255.0
             img[0] = skimage.transform.resize(img_arr, img_size + (1,))
         else:
-            img = np.empty((1, *img_size, n_channels), dtype=np.float64)
+            img = np.empty((1, *img_size, n_channels), dtype=np.float32)
             img_arr = cv2.imread(filepath)
             img[0] = skimage.transform.resize(img_arr, img_size + (n_channels,))
 
@@ -81,7 +87,8 @@ def manually_evaluate_model(cfg, model, test_data_filepaths, img_size):
     log.info('Global data:')
     log.info('Class count: %s' % class_count_map)
     log.info('Accurate predictions class count : %s' % accurate_class_count_map)
-    log.info('Percentages of class predictions: %s' % get_class_percentage_info(class_count_map, accurate_class_count_map))
+    log.info(
+        'Percentages of class predictions: %s' % get_class_percentage_info(class_count_map, accurate_class_count_map))
 
     all = sum(class_count_map.values())
     accurate = sum(accurate_class_count_map.values())

@@ -39,7 +39,7 @@ def save_confusion_matrix(y_true, y_pred, logs_dir, normalize):
 
     # Save the plot
     save_path = os.path.join(plot_dir, resolve_logger_filename())
-    plt.savefig('../logs/cm/%s' % resolve_logger_filename())
+    plt.savefig(save_path)
     log.info('Saved confusion matrix to %s' % save_path)
 
 

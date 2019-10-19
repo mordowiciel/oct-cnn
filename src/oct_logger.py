@@ -40,14 +40,53 @@ def setup_logger(cfg, TIMESTAMP):
 def print_cfg(cfg):
     log = logging.getLogger('oct-cnn')
     log.info('Starting CNN training.')
-    log.info('Architecture: %s', cfg.network.architecture)
-    log.info('Image resolution: %s', cfg.dataset.img_size)
+
+    print()
+    log.info('##### DATASET #####')
+    log.info('Img size: %s', cfg.dataset.img_size)
+    log.info('Input shape: %s', cfg.dataset.input_shape)
     log.info('Training dataset path: %s', cfg.dataset.training_dataset_path)
     log.info('Test dataset path: %s', cfg.dataset.test_dataset_path)
     if cfg.dataset.generate_extended_test_dataset:
         log.warning('USING EXTENDED TEST DATA GENERATOR')
-    log.info('Loss function: %s', cfg.network.loss_function)
-    log.info('Optimizer: %s', cfg.network.optimizer)
+
+    print()
+    log.info('##### TRAINING #####')
+    log.info('Epochs: %s', cfg.training.epochs)
     log.info('Training batch size: %s', cfg.training.training_batch_size)
     log.info('Test batch size: %s', cfg.training.test_batch_size)
-    log.info('Epochs: %s', cfg.training.epochs)
+
+    print()
+    log.info('##### AUGMENTATION #####')
+    if cfg.augmentation.use_data_augmentation:
+        log.warning('USING DATA AUGMENTATION')
+        log.info('Horizontal flip: %s', cfg.augmentation.horizontal_flip)
+        log.info('Width shift range: %s', cfg.augmentation.width_shift_range)
+        log.info('Height shift range: %s', cfg.augmentation.height_shift_range)
+        log.info('Brightness range: %s', cfg.augmentation.brightness_range)
+        log.info('dtype: %s', cfg.augmentation.dtype)
+    else:
+        log.info("Skipping data augmentation.")
+
+    print()
+    log.info('##### NETWORK #####')
+    log.info('Architecture: %s', cfg.network.architecture)
+    log.info('Loss function: %s', cfg.network.loss_function)
+    log.info('Optimizer: %s', cfg.network.optimizer)
+
+    print()
+    log.info('##### MISC #####')
+    log.info('Model save path: %s', cfg.misc.models_path)
+    log.info('Logs save path: %s', cfg.misc.logs_path)
+
+    # log.info('Architecture: %s', cfg.network.architecture)
+    # log.info('Image resolution: %s', cfg.dataset.img_size)
+    # log.info('Training dataset path: %s', cfg.dataset.training_dataset_path)
+    # log.info('Test dataset path: %s', cfg.dataset.test_dataset_path)
+    # if cfg.dataset.generate_extended_test_dataset:
+    #     log.warning('USING EXTENDED TEST DATA GENERATOR')
+    # log.info('Loss function: %s', cfg.network.loss_function)
+    # log.info('Optimizer: %s', cfg.network.optimizer)
+    # log.info('Training batch size: %s', cfg.training.training_batch_size)
+    # log.info('Test batch size: %s', cfg.training.test_batch_size)
+    # log.info('Epochs: %s', cfg.training.epochs)
