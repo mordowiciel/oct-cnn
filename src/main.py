@@ -44,7 +44,8 @@ if __name__ == '__main__':
     if not os.path.exists('../preview'):
         os.mkdir('../preview')
 
-    img = load_img('C:/Users/marcinis/Politechnika/sem8/inz/dataset/full/train/CNV/CNV-13823-1.jpeg')
+    img = load_img('C:/Users/marcinis/Politechnika/sem8/inz/dataset/full/train/CNV/CNV-13823-1.jpeg',
+                   color_mode='grayscale')
     x = img_to_array(img)
     x = x.reshape((1,) + x.shape)
     i = 0
@@ -73,6 +74,8 @@ if __name__ == '__main__':
 
     log.info('Resolving model...')
     model = resolve_model(cfg)
+
+    log.info('Model summary:')
 
     log.info('Fitting model...')
     batch_history = BatchHistory(granularity=100)
@@ -105,9 +108,6 @@ if __name__ == '__main__':
     log.info('Training evaluation:')
     log.info('Test loss: %s', score[0])
     log.info('Test accuracy: %s', score[1])
-    
-    # model = load_model(
-    #     'C:/Users/marcinis/Politechnika/sem8/inz/final_models/VGG-16-2019-10-08T18-08-01-categorical_crossentropy-sgd.h5'
-    # )
+
     evaluate_model(model, test_generator, cfg.dataset.test_dataset_path, test_steps_per_epoch, cfg.misc.logs_path)
     # manually_evaluate_model(cfg, model, cfg.dataset.test_dataset_path, cfg.dataset.img_size)
