@@ -1,11 +1,11 @@
 import datetime
-import os
 from glob import glob
 
-from keras.preprocessing.image import ImageDataGenerator, img_to_array, load_img
+from keras.preprocessing.image import ImageDataGenerator
 
 from augmentation.preprocessing_functions import all_in_once
-from batch_history_callback import BatchHistory
+from callbacks.batch_history_callback import BatchHistory
+from callbacks.time_history_callback import TimeHistory
 from model_evaluator import evaluate_model
 from model_resolver import resolve_model
 from oct_config import OCTConfig
@@ -41,19 +41,19 @@ if __name__ == '__main__':
 
     #### DEBUG #####
 
-    if not os.path.exists('../preview'):
-        os.mkdir('../preview')
-
-    img = load_img('C:/Users/marcinis/Politechnika/sem8/inz/dataset/full/train/CNV/CNV-13823-1.jpeg',
-                   color_mode='grayscale')
-    x = img_to_array(img)
-    x = x.reshape((1,) + x.shape)
-    i = 0
-    for batch in training_datagen.flow(x, batch_size=1,
-                                       save_to_dir='../preview', save_prefix='cnv', save_format='jpeg'):
-        i += 1
-        if i > 50:
-            break  # otherwise the generator would loop indefinitely
+    # if not os.path.exists('../preview'):
+    #     os.mkdir('../preview')
+    #
+    # img = load_img('C:/Users/marcinis/Politechnika/sem8/inz/dataset/full/train/CNV/CNV-13823-1.jpeg',
+    #                color_mode='grayscale')
+    # x = img_to_array(img)
+    # x = x.reshape((1,) + x.shape)
+    # i = 0
+    # for batch in training_datagen.flow(x, batch_size=1,
+    #                                    save_to_dir='../preview', save_prefix='cnv', save_format='jpeg'):
+    #     i += 1
+    #     if i > 50:
+    #         break  # otherwise the generator would loop indefinitely
 
     #### DEBUG #####
 
@@ -79,15 +79,17 @@ if __name__ == '__main__':
 
     log.info('Fitting model...')
     batch_history = BatchHistory(granularity=100)
+    time_history = TimeHistory()
     training_steps_per_epoch = count_images(cfg.dataset.training_dataset_path) // cfg.training.training_batch_size
     history = model.fit_generator(generator=training_generator,
                                   use_multiprocessing=False,
                                   epochs=cfg.training.epochs,
-                                  callbacks=[batch_history],
+                                  callbacks=[batch_history, time_history],
                                   steps_per_epoch=training_steps_per_epoch)
 
     log.info('Model training complete.')
     log.info('Saving loss to batch graph.')
+    log.info('EPOCH TRAINING TIMES: %s', time_history.epochs_training_duration)
     save_loss_to_batch_graph(batch_history.history['batch'],
                              batch_history.history['loss'],
                              cfg.misc.logs_path)
