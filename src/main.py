@@ -68,7 +68,6 @@ if __name__ == '__main__':
         directory=cfg.dataset.test_dataset_path,
         target_size=cfg.dataset.img_size,
         batch_size=cfg.training.test_batch_size,
-        class_mode=None,
         interpolation='bilinear',
         color_mode='grayscale',
         shuffle=False
