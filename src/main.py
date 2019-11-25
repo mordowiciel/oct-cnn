@@ -35,9 +35,8 @@ if __name__ == '__main__':
         )
         test_datagen = ImageDataGenerator()
     else:
-        training_datagen = ImageDataGenerator()
-        test_datagen = ImageDataGenerator()
-
+        training_datagen = ImageDataGenerator(rescale=1. / 255)
+        test_datagen = ImageDataGenerator(rescale=1. / 255)
 
     #### DEBUG #####
 
@@ -61,6 +60,7 @@ if __name__ == '__main__':
         directory=cfg.dataset.training_dataset_path,
         target_size=cfg.dataset.img_size,
         batch_size=cfg.training.training_batch_size,
+        interpolation='bilinear',
         color_mode='grayscale',
         shuffle=True
     )
@@ -68,6 +68,8 @@ if __name__ == '__main__':
         directory=cfg.dataset.test_dataset_path,
         target_size=cfg.dataset.img_size,
         batch_size=cfg.training.test_batch_size,
+        class_mode=None,
+        interpolation='bilinear',
         color_mode='grayscale',
         shuffle=False
     )
@@ -81,6 +83,8 @@ if __name__ == '__main__':
     batch_history = BatchHistory(granularity=100)
     time_history = TimeHistory()
     training_steps_per_epoch = count_images(cfg.dataset.training_dataset_path) // cfg.training.training_batch_size
+    log.info('Training steps per epoch: %s', training_steps_per_epoch)
+
     history = model.fit_generator(generator=training_generator,
                                   use_multiprocessing=False,
                                   epochs=cfg.training.epochs,
@@ -103,7 +107,10 @@ if __name__ == '__main__':
     model.save(model_path)
 
     image_count = count_images(cfg.dataset.test_dataset_path)
+    log.info('Image count %s', image_count)
     test_steps_per_epoch = image_count // cfg.training.test_batch_size
+    log.info('Test steps per epoch %s', test_steps_per_epoch)
+
     score = model.evaluate_generator(test_generator, steps=test_steps_per_epoch, use_multiprocessing=False,
                                      verbose=0)
 
