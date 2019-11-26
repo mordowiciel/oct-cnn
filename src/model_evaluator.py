@@ -26,7 +26,7 @@ def resolve_logger_filename():
 
 
 def __get_item_paths(dataset_path):
-    return glob('{}\\**\\*.jpeg'.format(dataset_path), recursive=True)
+    return sorted(glob('{}/**/*.jpeg'.format(dataset_path), recursive=True))
 
 
 def __resolve_item_label(filepath):
