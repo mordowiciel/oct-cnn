@@ -1,3 +1,4 @@
+import argparse
 import datetime
 from glob import glob
 
@@ -17,9 +18,14 @@ def count_images(dir_path):
     return len(glob('{}//**//*.jpeg'.format(dir_path), recursive=True))
 
 
+
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config_path")
+    args = parser.parse_args()
+
     TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
-    cfg = OCTConfig('../config.ini')
+    cfg = OCTConfig(args.config_path)
     log = setup_logger(cfg, TIMESTAMP)
     print_cfg(cfg)
 
