@@ -1,6 +1,7 @@
 import datetime
 from glob import glob
 
+import wandb
 from keras.preprocessing.image import ImageDataGenerator
 
 from augmentation.preprocessing_functions import all_in_once
@@ -11,6 +12,8 @@ from model_resolver import resolve_model
 from oct_config import OCTConfig
 from oct_logger import setup_logger, print_cfg
 from oct_utils.plot_utils import save_loss_to_batch_graph
+
+wandb.init()
 
 
 def count_images(dir_path):
