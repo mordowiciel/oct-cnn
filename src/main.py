@@ -14,20 +14,26 @@ from oct_config import OCTConfig
 from oct_logger import setup_logger, print_cfg
 from oct_utils.plot_utils import save_loss_to_batch_graph
 
-wandb.init()
-
 
 def count_images(dir_path):
     return len(glob('{}//**//*.jpeg'.format(dir_path), recursive=True))
 
 
+RUN_TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
+
 if __name__ == '__main__':
-    TIMESTAMP = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
+
+    # Setup config
     cfg = OCTConfig('../config.ini')
-    log = setup_logger(cfg, TIMESTAMP)
     print_cfg(cfg)
 
-    log.info('Providing generators...')
+    # Setup metrics collection by wandb
+    wandb_run_name = '{}-{}-{}-{}'.format(cfg.network.architecture, RUN_TIMESTAMP, cfg.network.loss_function,
+                                          cfg.network.optimizer)
+    wandb.init(name=wandb_run_name)
+
+    # Setup logger
+    log = setup_logger(cfg, RUN_TIMESTAMP)
 
     augmentation_preprocessor = AugmentationPreprocessor(augmentation_config=cfg.augmentation,
                                                          preprocessing_functions=['gaussian_noise', 'contrast'])
@@ -91,7 +97,7 @@ if __name__ == '__main__':
 
     model_path = '{}//{}-{}-{}-{}.h5'.format(cfg.misc.models_path,
                                              cfg.network.architecture,
-                                             TIMESTAMP,
+                                             RUN_TIMESTAMP,
                                              cfg.network.loss_function,
                                              cfg.network.optimizer)
     log.info('Saving model at path %s', model_path)
