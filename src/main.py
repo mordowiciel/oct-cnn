@@ -7,6 +7,7 @@ from keras.preprocessing.image import ImageDataGenerator
 from augmentation.augmentation_preprocessor import AugmentationPreprocessor
 from callbacks.batch_history_callback import BatchHistory
 from callbacks.time_history_callback import TimeHistory
+from generator_resolver import resolve_generators
 from model_evaluator import evaluate_model
 from model_resolver import resolve_model
 from oct_config import OCTConfig
@@ -31,18 +32,18 @@ if __name__ == '__main__':
     augmentation_preprocessor = AugmentationPreprocessor(augmentation_config=cfg.augmentation,
                                                          preprocessing_functions=['gaussian_noise', 'contrast'])
     if cfg.augmentation.use_data_augmentation:
-        training_datagen = ImageDataGenerator(
+        training_image_datagen = ImageDataGenerator(
             horizontal_flip=cfg.augmentation.horizontal_flip,
             width_shift_range=cfg.augmentation.width_shift_range,
             height_shift_range=cfg.augmentation.height_shift_range,
             brightness_range=cfg.augmentation.brightness_range,
-            rescale=1./255,
+            rescale=1. / 255,
             preprocessing_function=augmentation_preprocessor.preprocessing_chain
         )
-        test_datagen = ImageDataGenerator(rescale=1./255)
+        test_image_datagen = ImageDataGenerator(rescale=1. / 255)
     else:
-        training_datagen = ImageDataGenerator(rescale=1. / 255)
-        test_datagen = ImageDataGenerator(rescale=1. / 255)
+        training_image_datagen = ImageDataGenerator(rescale=1. / 255)
+        test_image_datagen = ImageDataGenerator(rescale=1. / 255)
 
     #### DEBUG #####
 
@@ -62,32 +63,12 @@ if __name__ == '__main__':
 
     #### DEBUG #####
 
-    # Add seed to reproduce same augmentations
-    generator_seed = 42
-
-    training_generator = training_datagen.flow_from_directory(
-        directory=cfg.dataset.training_dataset_path,
-        target_size=cfg.dataset.img_size,
-        batch_size=cfg.training.training_batch_size,
-        interpolation='bilinear',
-        color_mode='grayscale',
-        seed=generator_seed,
-        shuffle=True
-    )
-    test_generator = test_datagen.flow_from_directory(
-        directory=cfg.dataset.test_dataset_path,
-        target_size=cfg.dataset.img_size,
-        batch_size=cfg.training.test_batch_size,
-        interpolation='bilinear',
-        color_mode='grayscale',
-        seed=generator_seed,
-        shuffle=False
-    )
+    training_generator, test_generator = resolve_generators(cfg, training_image_datagen, test_image_datagen)
 
     log.info('Resolving model...')
     model = resolve_model(cfg)
-
     log.info('Model summary:')
+    model.summary()
 
     log.info('Fitting model...')
     batch_history = BatchHistory(granularity=100)
