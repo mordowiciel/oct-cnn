@@ -57,6 +57,8 @@ class AugmentationConfig:
         self.width_shift_range = float(augmentation_config['width_shift_range'])
         self.height_shift_range = float(augmentation_config['height_shift_range'])
         self.brightness_range = literal_eval(augmentation_config['brightness_range'])
+        self.contrast_range = literal_eval(augmentation_config['contrast_range'])
+        self.gaussian_noise_var_range = literal_eval(augmentation_config['gaussian_noise_var_range'])
         self.preprocessing_function = str(augmentation_config['preprocessing_function'])
         self.dtype = str(augmentation_config['dtype'])
 
