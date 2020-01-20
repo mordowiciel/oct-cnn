@@ -11,9 +11,12 @@ def AlexNet(input_shape, classes):
     # Max Pooling
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
 
+    # TODO: w tej warstwie powinno być chyba kernel_size=(5,5), patrz architektura
     # 2nd Convolutional Layer
     model.add(Conv2D(filters=256, kernel_size=(11, 11), strides=(1, 1), padding='same',
                      activation='relu'))
+
+    # TODO: dodać overlapping pooling - pool size 3x3, stride 2x2
     # Max Pooling
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
 

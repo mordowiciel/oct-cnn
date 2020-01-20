@@ -14,6 +14,27 @@ def resolve_logger_filename():
     return os.path.splitext(os.path.basename(log_file_path))[0]
 
 
+def save_mse_to_epoch_graph(history, logs_dir):
+
+    mse_y = history.history['mean_squared_error']
+    epoch_x = np.arange(1, len(mse_y) + 1)
+
+    plt.plot(epoch_x, mse_y)
+    plt.ylabel('MSE')
+    plt.xlabel('epoch')
+
+    # Treats X axis as integer
+    plt.xticks(epoch_x)
+
+    plot_dir = os.path.join(logs_dir, 'epoch_loss_plots')
+    if not os.path.exists(plot_dir):
+        os.makedirs(plot_dir)
+
+    save_path = os.path.join(plot_dir, resolve_logger_filename())
+    plt.savefig(save_path)
+    log.info('Saved loss to epoch graph to %s' % save_path)
+
+
 def save_loss_to_batch_graph(x_batches, y_losses, logs_dir):
     plt.plot(x_batches, y_losses)
     plt.ylabel('loss')

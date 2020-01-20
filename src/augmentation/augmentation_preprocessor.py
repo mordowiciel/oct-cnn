@@ -9,9 +9,9 @@ from skimage.util import random_noise
 
 class AugmentationPreprocessor:
 
-    def __init__(self, augmentation_config, preprocessing_functions):
+    def __init__(self, augmentation_config):
         self.augmentation_config = augmentation_config
-        self.preprocessing_functions = preprocessing_functions
+        self.preprocessing_functions = augmentation_config.preprocessing_functions
         self.preprocessing_functions_ref_mapping = {
             'gaussian_noise': self.gaussian_noise,
             'contrast': self.contrast

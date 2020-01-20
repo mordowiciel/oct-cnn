@@ -20,10 +20,15 @@ def LeNet5(input_shape, classes):
     model = Sequential()
     model.add(Conv2D(6, kernel_size=(5, 5), strides=(1, 1), activation='tanh', input_shape=input_shape,
                      padding="same"))
+    # TODO: czy stride nie powinien tu wynosić (2,2)?
+    # TODO: https://www.kaggle.com/curiousprogrammer/lenet-5-cnn-with-keras-99-48
     model.add(AveragePooling2D(pool_size=(2, 2), strides=(1, 1), padding='valid'))
     model.add(Conv2D(16, kernel_size=(5, 5), strides=(1, 1), activation='tanh', padding='valid'))
     model.add(AveragePooling2D(pool_size=(2, 2), strides=(2, 2), padding='valid'))
+
+    # TODO: tej warstwy chyba w ogole nie powinno tu być
     model.add(Conv2D(120, kernel_size=(5, 5), strides=(1, 1), activation='tanh', padding='valid'))
+
     model.add(Flatten())
     model.add(Dense(84, activation='tanh'))
     model.add(Dense(classes, activation='softmax'))

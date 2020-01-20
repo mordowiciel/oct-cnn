@@ -12,7 +12,7 @@ from model_evaluator import evaluate_model
 from model_resolver import resolve_model
 from oct_config import OCTConfig
 from oct_logger import setup_logger, print_cfg
-from oct_utils.plot_utils import save_loss_to_batch_graph
+from oct_utils.plot_utils import save_loss_to_batch_graph, save_mse_to_epoch_graph
 
 
 def count_images(dir_path):
@@ -35,8 +35,7 @@ if __name__ == '__main__':
     # Setup logger
     log = setup_logger(cfg, RUN_TIMESTAMP)
 
-    augmentation_preprocessor = AugmentationPreprocessor(augmentation_config=cfg.augmentation,
-                                                         preprocessing_functions=['gaussian_noise', 'contrast'])
+    augmentation_preprocessor = AugmentationPreprocessor(augmentation_config=cfg.augmentation)
     if cfg.augmentation.use_data_augmentation:
         training_image_datagen = ImageDataGenerator(
             horizontal_flip=cfg.augmentation.horizontal_flip,
@@ -91,6 +90,9 @@ if __name__ == '__main__':
     log.info('Model training complete.')
     log.info('Saving loss to batch graph.')
     log.info('EPOCH TRAINING TIMES: %s', time_history.epochs_training_duration)
+
+    # summarize history for loss
+    save_mse_to_epoch_graph(history, cfg.misc.logs_path)
     save_loss_to_batch_graph(batch_history.history['batch'],
                              batch_history.history['loss'],
                              cfg.misc.logs_path)

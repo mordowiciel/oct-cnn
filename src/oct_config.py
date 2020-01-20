@@ -59,7 +59,7 @@ class AugmentationConfig:
         self.brightness_range = literal_eval(augmentation_config['brightness_range'])
         self.contrast_range = literal_eval(augmentation_config['contrast_range'])
         self.gaussian_noise_var_range = literal_eval(augmentation_config['gaussian_noise_var_range'])
-        # self.preprocessing_function = str(augmentation_config['preprocessing_function'])
+        self.preprocessing_functions = literal_eval(augmentation_config['preprocessing_functions'])
         self.dtype = str(augmentation_config['dtype'])
 
 
