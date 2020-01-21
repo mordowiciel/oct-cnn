@@ -9,16 +9,14 @@ def AlexNet(input_shape, classes):
     model.add(Conv2D(filters=96, input_shape=input_shape, kernel_size=(11, 11), strides=(4, 4),
                      padding='same', activation='relu'))
     # Max Pooling
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
+    model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same'))
 
-    # TODO: w tej warstwie powinno być chyba kernel_size=(5,5), patrz architektura
     # 2nd Convolutional Layer
-    model.add(Conv2D(filters=256, kernel_size=(11, 11), strides=(1, 1), padding='same',
+    model.add(Conv2D(filters=256, kernel_size=(5, 5), strides=(1, 1), padding='same',
                      activation='relu'))
 
-    # TODO: dodać overlapping pooling - pool size 3x3, stride 2x2
     # Max Pooling
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
+    model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same'))
 
     # 3rd Convolutional Layer
     model.add(Conv2D(filters=384, kernel_size=(3, 3), strides=(1, 1), padding='same', activation='relu'))
@@ -30,7 +28,7 @@ def AlexNet(input_shape, classes):
     model.add(Conv2D(filters=256, kernel_size=(3, 3), strides=(1, 1), padding='same', activation='relu'))
 
     # Max Pooling
-    model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
+    model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same'))
 
     # Passing it to a Fully Connected layer
     model.add(Flatten())
