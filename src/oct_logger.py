@@ -20,9 +20,6 @@ class OCTLogger:
         wandb.init(name=wandb_run_name)
 
     def __setup_python_logger(self):
-
-        self.__setup_wandb()
-
         log = logging.getLogger('oct-cnn')
         log.setLevel(logging.INFO)
 
