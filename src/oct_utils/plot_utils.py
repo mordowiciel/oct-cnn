@@ -3,12 +3,17 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
+import wandb
 from sklearn.metrics import confusion_matrix
 
 log = logging.getLogger('oct-cnn')
 
 
-def resolve_logger_filename():
+def __save_plot_to_wandb(name, plt):
+    wandb.log({name: wandb.Image(plt)})
+    log.info("Synced %s plot with wandb" % name)
+
+def __resolve_logger_filename():
     log_file_handler = log.handlers[0]
     log_file_path = log_file_handler.baseFilename
     return os.path.splitext(os.path.basename(log_file_path))[0]
@@ -30,9 +35,11 @@ def save_mse_to_epoch_graph(history, logs_dir):
     if not os.path.exists(plot_dir):
         os.makedirs(plot_dir)
 
-    save_path = os.path.join(plot_dir, resolve_logger_filename())
+    save_path = os.path.join(plot_dir, __resolve_logger_filename())
     plt.savefig(save_path)
     log.info('Saved loss to epoch graph to %s' % save_path)
+
+    __save_plot_to_wandb("mse_to_epoch", plt)
 
 
 def save_loss_to_batch_graph(x_batches, y_losses, logs_dir):
@@ -44,14 +51,16 @@ def save_loss_to_batch_graph(x_batches, y_losses, logs_dir):
     if not os.path.exists(plot_dir):
         os.makedirs(plot_dir)
 
-    save_path = os.path.join(plot_dir, resolve_logger_filename())
+    save_path = os.path.join(plot_dir, __resolve_logger_filename())
     plt.savefig(save_path)
-    log.info('Saved confusion matrix to %s' % save_path)
+    log.info('Saved loss to batch graph to %s' % save_path)
+
+    __save_plot_to_wandb("loss_to_batch", plt)
 
 
 def save_confusion_matrix(y_true, y_pred, logs_dir, normalize):
     log.info('Plotting confusion matrix...')
-    construct_confusion_matrix(y_true, y_pred, normalize)
+    __construct_confusion_matrix(y_true, y_pred, normalize)
 
     # Before saving the plot, check if cm directory exists
     plot_dir = os.path.join(logs_dir, 'cm_plots')
@@ -59,12 +68,14 @@ def save_confusion_matrix(y_true, y_pred, logs_dir, normalize):
         os.makedirs(plot_dir)
 
     # Save the plot
-    save_path = os.path.join(plot_dir, resolve_logger_filename())
+    save_path = os.path.join(plot_dir, __resolve_logger_filename())
     plt.savefig(save_path)
     log.info('Saved confusion matrix to %s' % save_path)
 
+    __save_plot_to_wandb("confusion_matrix", plt)
 
-def construct_confusion_matrix(y_true, y_pred, normalize):
+
+def __construct_confusion_matrix(y_true, y_pred, normalize):
     cm = confusion_matrix(y_true, y_pred)
     classes = ['CNV', 'DME', 'DRUSEN', 'NORMAL']
     if normalize:
