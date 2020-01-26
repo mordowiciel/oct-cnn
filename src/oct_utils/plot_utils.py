@@ -13,6 +13,7 @@ def __save_plot_to_wandb(name, plt):
     wandb.log({name: wandb.Image(plt)})
     log.info("Synced %s plot with wandb" % name)
 
+
 def __resolve_logger_filename():
     log_file_handler = log.handlers[0]
     log_file_path = log_file_handler.baseFilename
@@ -20,13 +21,15 @@ def __resolve_logger_filename():
 
 
 def save_mse_to_epoch_graph(history, logs_dir):
-
     mse_y = history.history['mean_squared_error']
+    val_mse_y = history.history['val_mean_squared_error']
     epoch_x = np.arange(1, len(mse_y) + 1)
 
     plt.plot(epoch_x, mse_y)
+    plt.plot(epoch_x, val_mse_y)
     plt.ylabel('MSE')
     plt.xlabel('epoch')
+    plt.legend(['train', 'val'], loc='upper left')
 
     # Treats X axis as integer
     plt.xticks(epoch_x)
@@ -37,9 +40,35 @@ def save_mse_to_epoch_graph(history, logs_dir):
 
     save_path = os.path.join(plot_dir, __resolve_logger_filename())
     plt.savefig(save_path)
-    log.info('Saved loss to epoch graph to %s' % save_path)
+    log.info('Saved MSE to epoch graph to %s' % save_path)
 
     __save_plot_to_wandb("mse_to_epoch", plt)
+
+
+def save_accuracy_to_epoch_graph(history, logs_dir):
+    accuracy = history.history['accuracy']
+    val_accuracy = history.history['val_accuracy']
+
+    epoch_x = np.arange(1, len(accuracy) + 1)
+
+    plt.plot(epoch_x, accuracy)
+    plt.plot(epoch_x, val_accuracy)
+    plt.ylabel('Accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'val'], loc='upper left')
+
+    # Treats X axis as integer
+    plt.xticks(epoch_x)
+
+    plot_dir = os.path.join(logs_dir, 'epoch_accuracy_plots')
+    if not os.path.exists(plot_dir):
+        os.makedirs(plot_dir)
+
+    save_path = os.path.join(plot_dir, __resolve_logger_filename())
+    plt.savefig(save_path)
+    log.info('Saved accuracy to epoch graph to %s' % save_path)
+
+    __save_plot_to_wandb("acc_to_epoch", plt)
 
 
 def save_loss_to_batch_graph(x_batches, y_losses, logs_dir):
