@@ -15,12 +15,12 @@ if __name__ == '__main__':
     oct_logger.print_cfg()
 
     generator_resolver = GeneratorResolver(cfg)
-    training_generator, test_generator = generator_resolver.resolve_generators()
+    training_generator, test_generator, val_generator = generator_resolver.resolve_generators()
 
     model_resolver = ModelResolver(cfg)
     model = model_resolver.resolve_model()
 
-    model_trainer = ModelTrainer(cfg, model, training_generator, RUN_TIMESTAMP)
+    model_trainer = ModelTrainer(cfg, model, training_generator, val_generator, RUN_TIMESTAMP)
     model_trainer.train_model()
 
     model_evaluator = ModelEvaluator(cfg, model, test_generator)

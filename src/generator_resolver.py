@@ -21,14 +21,17 @@ class GeneratorResolver:
                 preprocessing_function=augmentation_preprocessor.preprocessing_chain
             )
             test_image_datagen = ImageDataGenerator(rescale=1. / 255)
+            val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=0.1)
+
         else:
             training_image_datagen = ImageDataGenerator(rescale=1. / 255)
             test_image_datagen = ImageDataGenerator(rescale=1. / 255)
+            val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=0.1)
 
-        return training_image_datagen, test_image_datagen
+        return training_image_datagen, test_image_datagen, val_image_datagen
 
     def resolve_generators(self):
-        training_image_datagen, test_image_datagen = self.provide_image_data_generators()
+        training_image_datagen, test_image_datagen, val_image_datagen = self.provide_image_data_generators()
         if self.cfg.network.architecture == 'VGG-16-TL':
             training_generator = training_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.training_dataset_path,
@@ -36,6 +39,7 @@ class GeneratorResolver:
                 batch_size=self.cfg.training.training_batch_size,
                 interpolation='bilinear',
                 color_mode='rgb',
+                subset='training',
                 seed=self.generator_seed,
                 shuffle=True
             )
@@ -48,6 +52,16 @@ class GeneratorResolver:
                 seed=self.generator_seed,
                 shuffle=False
             )
+            val_generator = val_image_datagen.flow_from_directory(
+                directory=self.cfg.dataset.training_dataset_path,
+                target_size=self.cfg.dataset.img_size,
+                batch_size=self.cfg.training.training_batch_size,
+                interpolation='bilinear',
+                color_mode='rgb',
+                subset='validation',
+                seed=self.generator_seed,
+                shuffle=True
+            )
         else:
             training_generator = training_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.training_dataset_path,
@@ -55,6 +69,7 @@ class GeneratorResolver:
                 batch_size=self.cfg.training.training_batch_size,
                 interpolation='bilinear',
                 color_mode='grayscale',
+                subset='training',
                 seed=self.generator_seed,
                 shuffle=True
             )
@@ -67,5 +82,16 @@ class GeneratorResolver:
                 seed=self.generator_seed,
                 shuffle=False
             )
+            val_generator = val_image_datagen.flow_from_directory(
+                directory=self.cfg.dataset.training_dataset_path,
+                target_size=self.cfg.dataset.img_size,
+                batch_size=self.cfg.training.training_batch_size,
+                interpolation='bilinear',
+                color_mode='grayscale',
+                subset='validation',
+                save_to_dir='../val_preview',
+                seed=self.generator_seed,
+                shuffle=True
+            )
 
-        return training_generator, test_generator
+        return training_generator, test_generator, val_generator

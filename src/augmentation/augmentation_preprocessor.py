@@ -50,7 +50,8 @@ class AugmentationPreprocessor:
 
     def preprocessing_chain(self, image):
         previous_image = image
-        for function in self.preprocessing_functions:
-            function_ref = self.resolve_preprocessing_function_ref(function)
-            previous_image = function_ref(previous_image)
+        if self.preprocessing_functions is not None:
+            for function in self.preprocessing_functions:
+                function_ref = self.resolve_preprocessing_function_ref(function)
+                previous_image = function_ref(previous_image)
         return previous_image

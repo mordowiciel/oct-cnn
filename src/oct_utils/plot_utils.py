@@ -43,11 +43,13 @@ def save_mse_to_epoch_graph(history, logs_dir):
     log.info('Saved MSE to epoch graph to %s' % save_path)
 
     __save_plot_to_wandb("mse_to_epoch", plt)
+    plt.clf()
+    plt.cla()
 
 
 def save_accuracy_to_epoch_graph(history, logs_dir):
-    accuracy = history.history['accuracy']
-    val_accuracy = history.history['val_accuracy']
+    accuracy = history.history['acc']
+    val_accuracy = history.history['val_acc']
 
     epoch_x = np.arange(1, len(accuracy) + 1)
 
@@ -69,6 +71,8 @@ def save_accuracy_to_epoch_graph(history, logs_dir):
     log.info('Saved accuracy to epoch graph to %s' % save_path)
 
     __save_plot_to_wandb("acc_to_epoch", plt)
+    plt.clf()
+    plt.cla()
 
 
 def save_loss_to_batch_graph(x_batches, y_losses, logs_dir):
@@ -85,6 +89,8 @@ def save_loss_to_batch_graph(x_batches, y_losses, logs_dir):
     log.info('Saved loss to batch graph to %s' % save_path)
 
     __save_plot_to_wandb("loss_to_batch", plt)
+    plt.clf()
+    plt.cla()
 
 
 def save_confusion_matrix(y_true, y_pred, logs_dir, normalize):
@@ -102,6 +108,8 @@ def save_confusion_matrix(y_true, y_pred, logs_dir, normalize):
     log.info('Saved confusion matrix to %s' % save_path)
 
     __save_plot_to_wandb("confusion_matrix", plt)
+    plt.clf()
+    plt.cla()
 
 
 def __construct_confusion_matrix(y_true, y_pred, normalize):

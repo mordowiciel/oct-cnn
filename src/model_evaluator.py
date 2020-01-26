@@ -65,7 +65,7 @@ class ModelEvaluator:
         log.info('\n' + report)
 
         # Create and plot confusion matrix
-        save_confusion_matrix(y_true, y_pred, self.cfg.misc.logs_path, normalize=True)
+        save_confusion_matrix(y_true, y_pred, self.cfg.misc.logs_path, normalize=False)
 
 # def result_resolver(res):
 #     concat_res = []
