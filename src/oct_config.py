@@ -20,6 +20,9 @@ class TrainingConfig:
         self.epochs = int(training_config['epochs'])
         self.training_batch_size = int(training_config['training_batch_size'])
         self.test_batch_size = int(training_config['test_batch_size'])
+        self.early_stopping_monitor = str(training_config['early_stopping_monitor'])
+        self.early_stopping_patience = int(training_config['early_stopping_patience'])
+        self.early_stopping_min_delta = float(training_config['early_stopping_min_delta'])
 
 
 class NetworkConfig:

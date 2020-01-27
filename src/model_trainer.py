@@ -1,9 +1,14 @@
 import logging
 from glob import glob
 
+from keras.callbacks import EarlyStopping
+
 from callbacks.batch_history_callback import BatchHistory
 from callbacks.time_history_callback import TimeHistory
-from oct_utils.plot_utils import save_metric_mse_to_epoch_graph, save_loss_to_batch_graph, save_accuracy_to_epoch_graph, \
+from oct_utils.plot_utils import \
+    save_metric_mse_to_epoch_graph, \
+    save_loss_to_batch_graph, \
+    save_accuracy_to_epoch_graph, \
     save_loss_to_epoch_graph
 
 log = logging.getLogger('oct-cnn')
@@ -33,6 +38,10 @@ class ModelTrainer:
         log.info('Fitting model...')
         batch_history = BatchHistory(granularity=100)
         time_history = TimeHistory()
+        early_stopping = EarlyStopping(monitor=self.cfg.training.early_stopping_monitor,
+                                       patience=self.cfg.training.early_stopping_patience,
+                                       min_delta=self.cfg.training.early_stopping_min_delta,
+                                       verbose=1)
 
         training_dataset_image_count = self.__count_images(self.cfg.dataset.training_dataset_path)
         training_dataset_split = 1 - self.cfg.dataset.validation_split
@@ -50,8 +59,9 @@ class ModelTrainer:
                                            validation_data=self.validation_data_generator,
                                            validation_steps=val_steps_per_epoch,
                                            epochs=self.cfg.training.epochs,
-                                           callbacks=[batch_history, time_history],
-                                           steps_per_epoch=training_steps_per_epoch)
+                                           callbacks=[batch_history, time_history, early_stopping],
+                                           steps_per_epoch=training_steps_per_epoch,
+                                           verbose=1)
 
         log.info('Model training complete.')
         log.info('Epoch training times: %s', time_history.epochs_training_duration)
