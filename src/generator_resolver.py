@@ -89,7 +89,6 @@ class GeneratorResolver:
                 interpolation='bilinear',
                 color_mode='grayscale',
                 subset='validation',
-                save_to_dir='../val_preview',
                 seed=self.generator_seed,
                 shuffle=True
             )
