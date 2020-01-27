@@ -3,7 +3,8 @@ from glob import glob
 
 from callbacks.batch_history_callback import BatchHistory
 from callbacks.time_history_callback import TimeHistory
-from oct_utils.plot_utils import save_mse_to_epoch_graph, save_loss_to_batch_graph, save_accuracy_to_epoch_graph
+from oct_utils.plot_utils import save_metric_mse_to_epoch_graph, save_loss_to_batch_graph, save_accuracy_to_epoch_graph, \
+    save_loss_to_epoch_graph
 
 log = logging.getLogger('oct-cnn')
 
@@ -56,7 +57,10 @@ class ModelTrainer:
         log.info('Epoch training times: %s', time_history.epochs_training_duration)
 
         log.info('Saving MSE to epoch graph.')
-        save_mse_to_epoch_graph(history, self.cfg.misc.logs_path)
+        save_metric_mse_to_epoch_graph(history, self.cfg.misc.logs_path)
+
+        log.info('Saving loss to epoch graph.')
+        save_loss_to_epoch_graph(history, self.cfg.misc.logs_path)
 
         log.info('Saving accuracy to epoch graph.')
         save_accuracy_to_epoch_graph(history, self.cfg.misc.logs_path)
