@@ -34,10 +34,15 @@ class ModelTrainer:
         time_history = TimeHistory()
 
         training_dataset_image_count = self.__count_images(self.cfg.dataset.training_dataset_path)
+        training_dataset_split = 1 - self.cfg.dataset.validation_split
 
-        training_steps_per_epoch = int(training_dataset_image_count * 0.9) // self.cfg.training.training_batch_size
+        training_steps_per_epoch = int(
+            training_dataset_image_count * training_dataset_split) // self.cfg.training.training_batch_size
         log.info('Training steps per epoch: %s', training_steps_per_epoch)
-        val_steps_per_epoch = int(training_dataset_image_count * 0.1) // self.cfg.training.training_batch_size
+
+        val_steps_per_epoch = int(
+            training_dataset_image_count * self.cfg.dataset.validation_split) // self.cfg.training.training_batch_size
+        log.info('Validation steps per epoch: %s', val_steps_per_epoch)
 
         history = self.model.fit_generator(generator=self.training_data_generator,
                                            use_multiprocessing=False,
@@ -49,8 +54,6 @@ class ModelTrainer:
 
         log.info('Model training complete.')
         log.info('Epoch training times: %s', time_history.epochs_training_duration)
-
-        history_keys = history.history.keys()
 
         log.info('Saving MSE to epoch graph.')
         save_mse_to_epoch_graph(history, self.cfg.misc.logs_path)

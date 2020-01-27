@@ -21,12 +21,12 @@ class GeneratorResolver:
                 preprocessing_function=augmentation_preprocessor.preprocessing_chain
             )
             test_image_datagen = ImageDataGenerator(rescale=1. / 255)
-            val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=0.1)
+            val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
 
         else:
             training_image_datagen = ImageDataGenerator(rescale=1. / 255)
             test_image_datagen = ImageDataGenerator(rescale=1. / 255)
-            val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=0.1)
+            val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
 
         return training_image_datagen, test_image_datagen, val_image_datagen
 

@@ -43,6 +43,7 @@ class DatasetConfig:
         self.input_shape = literal_eval(dataset_config['input_shape'])
         self.training_dataset_path = str(dataset_config['training_dataset_path'])
         self.test_dataset_path = str(dataset_config['test_dataset_path'])
+        self.validation_split = float(dataset_config['validation_split'])
         self.generate_extended_test_dataset = dataset_config['generate_extended_test_dataset'] == "True"
 
 
