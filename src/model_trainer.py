@@ -1,4 +1,5 @@
 import logging
+import time
 from glob import glob
 
 from keras.callbacks import EarlyStopping
@@ -65,6 +66,10 @@ class ModelTrainer:
 
         log.info('Model training complete.')
         log.info('Epoch training times: %s', time_history.epochs_training_duration)
+
+        total_time = sum(time_history.epochs_training_duration)
+        human_total_time_string = time.strftime('%H:%M:%S', time.gmtime(total_time))
+        log.info('Total training time : %s' % human_total_time_string)
 
         log.info('Saving MSE to epoch graph.')
         save_metric_mse_to_epoch_graph(history, self.cfg.misc.logs_path)
