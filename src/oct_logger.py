@@ -58,6 +58,8 @@ class OCTLogger:
         log = logging.getLogger('oct-cnn')
         log.info('Starting CNN training.')
 
+        log.info('Using config path %s' % self.cfg.config_file_path)
+
         print()
         log.info('##### DATASET #####')
         log.info('Img size: %s', self.cfg.dataset.img_size)
@@ -72,6 +74,9 @@ class OCTLogger:
         log.info('Epochs: %s', self.cfg.training.epochs)
         log.info('Training batch size: %s', self.cfg.training.training_batch_size)
         log.info('Test batch size: %s', self.cfg.training.test_batch_size)
+        log.info('Early stopping monitor: %s', self.cfg.training.early_stopping_monitor)
+        log.info('Early stopping patience: %s', self.cfg.training.early_stopping_patience)
+        log.info('Early stopping min delta: %s', self.cfg.training.early_stopping_min_delta)
 
         print()
         log.info('##### AUGMENTATION #####')

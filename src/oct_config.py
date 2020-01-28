@@ -4,6 +4,7 @@ from ast import literal_eval
 
 class OCTConfig:
     def __init__(self, config_file_path):
+        self.config_file_path = config_file_path
         self.dataset = DatasetConfig(config_file_path)
         self.training = TrainingConfig(config_file_path)
         self.network = NetworkConfig(config_file_path)
