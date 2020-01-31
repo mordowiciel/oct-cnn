@@ -42,6 +42,7 @@ class ModelTrainer:
         early_stopping = EarlyStopping(monitor=self.cfg.training.early_stopping_monitor,
                                        patience=self.cfg.training.early_stopping_patience,
                                        min_delta=self.cfg.training.early_stopping_min_delta,
+                                       baseline=self.cfg.training.early_stopping_baseline,
                                        verbose=1)
 
         training_dataset_image_count = self.__count_images(self.cfg.dataset.training_dataset_path)
