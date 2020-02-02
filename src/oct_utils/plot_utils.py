@@ -13,23 +13,45 @@ def __save_plot_to_wandb(name, plt):
     wandb.log({name: wandb.Image(plt)})
     log.info("Synced %s plot with wandb" % name)
 
+
 def __resolve_logger_filename():
     log_file_handler = log.handlers[0]
     log_file_path = log_file_handler.baseFilename
     return os.path.splitext(os.path.basename(log_file_path))[0]
 
 
-def save_mse_to_epoch_graph(history, logs_dir):
-
+def save_metric_mse_to_epoch_graph(history, logs_dir):
     mse_y = history.history['mean_squared_error']
-    epoch_x = np.arange(1, len(mse_y) + 1)
+    val_mse_y = history.history['val_mean_squared_error']
 
-    plt.plot(epoch_x, mse_y)
+    plt.plot(mse_y)
+    plt.plot(val_mse_y)
     plt.ylabel('MSE')
-    plt.xlabel('epoch')
+    plt.xlabel('Epoch')
+    plt.legend(['train', 'val'], loc='upper left')
 
-    # Treats X axis as integer
-    plt.xticks(epoch_x)
+    plot_dir = os.path.join(logs_dir, 'epoch_loss_plots')
+    if not os.path.exists(plot_dir):
+        os.makedirs(plot_dir)
+
+    save_path = os.path.join(plot_dir, __resolve_logger_filename())
+    plt.savefig(save_path)
+    log.info('Saved metric MSE to epoch graph to %s' % save_path)
+
+    __save_plot_to_wandb("metric_mse_to_epoch", plt)
+    plt.clf()
+    plt.cla()
+
+
+def save_loss_to_epoch_graph(history, logs_dir):
+    accuracy = history.history['loss']
+    val_accuracy = history.history['val_loss']
+
+    plt.plot(accuracy)
+    plt.plot(val_accuracy)
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['train', 'val'], loc='upper left')
 
     plot_dir = os.path.join(logs_dir, 'epoch_loss_plots')
     if not os.path.exists(plot_dir):
@@ -39,7 +61,32 @@ def save_mse_to_epoch_graph(history, logs_dir):
     plt.savefig(save_path)
     log.info('Saved loss to epoch graph to %s' % save_path)
 
-    __save_plot_to_wandb("mse_to_epoch", plt)
+    __save_plot_to_wandb("loss_to_epoch", plt)
+    plt.clf()
+    plt.cla()
+
+
+def save_accuracy_to_epoch_graph(history, logs_dir):
+    accuracy = history.history['acc']
+    val_accuracy = history.history['val_acc']
+
+    plt.plot(accuracy)
+    plt.plot(val_accuracy)
+    plt.ylabel('Accuracy')
+    plt.xlabel('Epoch')
+    plt.legend(['train', 'val'], loc='upper left')
+
+    plot_dir = os.path.join(logs_dir, 'epoch_accuracy_plots')
+    if not os.path.exists(plot_dir):
+        os.makedirs(plot_dir)
+
+    save_path = os.path.join(plot_dir, __resolve_logger_filename())
+    plt.savefig(save_path)
+    log.info('Saved accuracy to epoch graph to %s' % save_path)
+
+    __save_plot_to_wandb("acc_to_epoch", plt)
+    plt.clf()
+    plt.cla()
 
 
 def save_loss_to_batch_graph(x_batches, y_losses, logs_dir):
@@ -56,6 +103,8 @@ def save_loss_to_batch_graph(x_batches, y_losses, logs_dir):
     log.info('Saved loss to batch graph to %s' % save_path)
 
     __save_plot_to_wandb("loss_to_batch", plt)
+    plt.clf()
+    plt.cla()
 
 
 def save_confusion_matrix(y_true, y_pred, logs_dir, normalize):
@@ -73,6 +122,8 @@ def save_confusion_matrix(y_true, y_pred, logs_dir, normalize):
     log.info('Saved confusion matrix to %s' % save_path)
 
     __save_plot_to_wandb("confusion_matrix", plt)
+    plt.clf()
+    plt.cla()
 
 
 def __construct_confusion_matrix(y_true, y_pred, normalize):

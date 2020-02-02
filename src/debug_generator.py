@@ -19,9 +19,9 @@ x = x.reshape((1,) + x.shape)
 i = 0
 
 gen_resolver = GeneratorResolver(cfg)
-training_datagen, test_datagen = gen_resolver.provide_image_data_generators()
+training_datagen, test_datagen, val_datagen = gen_resolver.provide_image_data_generators()
 
-for batch in training_datagen.flow(x, batch_size=1,
+for batch in val_datagen.flow(x, batch_size=1,
                                    save_to_dir='../preview', save_prefix='cnv', save_format='jpeg'):
     i += 1
     if i > 50:

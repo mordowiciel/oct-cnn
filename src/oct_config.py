@@ -4,6 +4,7 @@ from ast import literal_eval
 
 class OCTConfig:
     def __init__(self, config_file_path):
+        self.config_file_path = config_file_path
         self.dataset = DatasetConfig(config_file_path)
         self.training = TrainingConfig(config_file_path)
         self.network = NetworkConfig(config_file_path)
@@ -20,6 +21,10 @@ class TrainingConfig:
         self.epochs = int(training_config['epochs'])
         self.training_batch_size = int(training_config['training_batch_size'])
         self.test_batch_size = int(training_config['test_batch_size'])
+        self.early_stopping_monitor = str(training_config['early_stopping_monitor'])
+        self.early_stopping_patience = int(training_config['early_stopping_patience'])
+        self.early_stopping_min_delta = float(training_config['early_stopping_min_delta'])
+        self.early_stopping_baseline = float(training_config['early_stopping_baseline'])
 
 
 class NetworkConfig:
@@ -43,6 +48,7 @@ class DatasetConfig:
         self.input_shape = literal_eval(dataset_config['input_shape'])
         self.training_dataset_path = str(dataset_config['training_dataset_path'])
         self.test_dataset_path = str(dataset_config['test_dataset_path'])
+        self.validation_split = float(dataset_config['validation_split'])
         self.generate_extended_test_dataset = dataset_config['generate_extended_test_dataset'] == "True"
 
 

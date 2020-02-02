@@ -3,7 +3,7 @@ import logging
 import keras
 
 from architectures.alexnet import AlexNet
-from architectures.customnet_one import CustomNetOne
+from architectures.customnet import CustomNetOne
 from architectures.lenet import LeNet5
 from architectures.vgg16_transfer import VGG16TL
 
@@ -28,7 +28,7 @@ class ModelResolver:
             model = VGG16TL(input_shape=self.cfg.dataset.input_shape, classes=4)
         elif self.cfg.network.architecture == "AlexNet":
             model = AlexNet(input_shape=self.cfg.dataset.input_shape, classes=4)
-        elif self.cfg.network.architecture == "CustomNetOne":
+        elif self.cfg.network.architecture == "CustomNet":
             model = CustomNetOne(input_shape=self.cfg.dataset.input_shape, classes=4)
         else:
             raise AttributeError('Unknown network architecture provided, aborting.')
