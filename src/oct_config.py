@@ -24,7 +24,7 @@ class TrainingConfig:
         self.early_stopping_monitor = str(training_config['early_stopping_monitor'])
         self.early_stopping_patience = int(training_config['early_stopping_patience'])
         self.early_stopping_min_delta = float(training_config['early_stopping_min_delta'])
-        self.early_stopping_baseline = float(training_config['early_stopping_baseline'])
+        self.early_stopping_baseline = literal_eval(training_config['early_stopping_baseline'])
 
 
 class NetworkConfig:
