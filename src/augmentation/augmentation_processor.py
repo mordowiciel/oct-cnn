@@ -52,7 +52,7 @@ class AugmentationProcessor:
                 directory=self.cfg.dataset.test_dataset_path,
                 classes=[image_class],
                 batch_size=self.cfg.augmentation.augmentation_batch_size,
-                save_to_dir=self.cfg.augmentation.augmented_images_tmp_save_path,
+                save_to_dir=augmented_class_dir,
                 seed=42,
                 shuffle=True
             )
@@ -61,7 +61,8 @@ class AugmentationProcessor:
                 i += 1
                 if i > batch_iteration_count:
                     break
-                sys.stdout.write('\rProcessing batch %d of %d...' % (i, batch_iteration_count))
-                sys.stdout.flush()
+                # sys.stdout.write('\rProcessing batch %d of %d...' % (i, batch_iteration_count))
+                # sys.stdout.flush()
 
             self.__copy_augmented_data_to_training_dataset(image_class, augmented_class_dir)
+            log.info('Augmenting data for class %s completed.' % image_class)
