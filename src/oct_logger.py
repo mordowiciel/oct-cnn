@@ -83,6 +83,10 @@ class OCTLogger:
         log.info('##### AUGMENTATION #####')
         if self.cfg.augmentation.use_data_augmentation:
             log.warning('USING DATA AUGMENTATION')
+            log.info('Augmentation generator batch size: %s', self.cfg.augmentation.augmentation_batch_size)
+            log.info('Augmentation count factor: %s', self.cfg.augmentation.augmentation_count_factor)
+            log.info('Augmentated images temporary save path: %s', self.cfg.augmentation.augmented_images_tmp_save_path)
+            log.info('Classes to augment: %s', self.cfg.augmentation.classes_to_augment)
             log.info('Horizontal flip: %s', self.cfg.augmentation.horizontal_flip)
             log.info('Width shift range: %s', self.cfg.augmentation.width_shift_range)
             log.info('Height shift range: %s', self.cfg.augmentation.height_shift_range)
