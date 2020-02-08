@@ -59,6 +59,10 @@ class AugmentationConfig:
 
         augmentation_config = config['augmentation']
         self.use_data_augmentation = augmentation_config['use_data_augmentation'] == "True"
+        self.augmentation_batch_size = int(augmentation_config['augmentation_batch_size'])
+        self.augmentation_count_factor = float(augmentation_config['augmentation_count_factor'])
+        self.augmented_images_tmp_save_path = str(augmentation_config['augmented_images_tmp_save_path'])
+        self.classes_to_augment = literal_eval(augmentation_config['classes_to_augment'])
         self.horizontal_flip = augmentation_config['horizontal_flip'] == "True"
         self.width_shift_range = float(augmentation_config['width_shift_range'])
         self.height_shift_range = float(augmentation_config['height_shift_range'])

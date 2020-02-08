@@ -1,7 +1,5 @@
 from keras_preprocessing.image import ImageDataGenerator
 
-from augmentation.augmentation_preprocessor import AugmentationPreprocessor
-
 
 class GeneratorResolver:
 
@@ -10,30 +8,15 @@ class GeneratorResolver:
         self.generator_seed = generator_seed
 
     def provide_image_data_generators(self):
-        augmentation_preprocessor = AugmentationPreprocessor(augmentation_config=self.cfg.augmentation)
-        if self.cfg.augmentation.use_data_augmentation:
-            training_image_datagen = ImageDataGenerator(
-                horizontal_flip=self.cfg.augmentation.horizontal_flip,
-                width_shift_range=self.cfg.augmentation.width_shift_range,
-                height_shift_range=self.cfg.augmentation.height_shift_range,
-                brightness_range=self.cfg.augmentation.brightness_range,
-                rescale=1. / 255,
-                preprocessing_function=augmentation_preprocessor.preprocessing_chain
-            )
-            test_image_datagen = ImageDataGenerator(rescale=1. / 255)
-            val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
-
-        else:
-            training_image_datagen = ImageDataGenerator(rescale=1. / 255)
-            test_image_datagen = ImageDataGenerator(rescale=1. / 255)
-            val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
-
+        training_image_datagen = ImageDataGenerator(rescale=1. / 255)
+        test_image_datagen = ImageDataGenerator(rescale=1. / 255)
+        val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
         return training_image_datagen, test_image_datagen, val_image_datagen
 
-    def resolve_generators(self):
+    def resolve_data_iterators(self):
         training_image_datagen, test_image_datagen, val_image_datagen = self.provide_image_data_generators()
         if self.cfg.network.architecture == 'VGG-16-TL':
-            training_generator = training_image_datagen.flow_from_directory(
+            training_data_iterator = training_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.training_dataset_path,
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.training_batch_size,
@@ -43,7 +26,7 @@ class GeneratorResolver:
                 seed=self.generator_seed,
                 shuffle=True
             )
-            test_generator = test_image_datagen.flow_from_directory(
+            test_data_iterator = test_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.test_dataset_path,
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.test_batch_size,
@@ -52,7 +35,7 @@ class GeneratorResolver:
                 seed=self.generator_seed,
                 shuffle=False
             )
-            val_generator = val_image_datagen.flow_from_directory(
+            val_data_iterator = val_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.training_dataset_path,
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.training_batch_size,
@@ -63,7 +46,7 @@ class GeneratorResolver:
                 shuffle=True
             )
         else:
-            training_generator = training_image_datagen.flow_from_directory(
+            training_data_iterator = training_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.training_dataset_path,
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.training_batch_size,
@@ -73,7 +56,7 @@ class GeneratorResolver:
                 seed=self.generator_seed,
                 shuffle=True
             )
-            test_generator = test_image_datagen.flow_from_directory(
+            test_data_iterator = test_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.test_dataset_path,
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.test_batch_size,
@@ -82,7 +65,7 @@ class GeneratorResolver:
                 seed=self.generator_seed,
                 shuffle=False
             )
-            val_generator = val_image_datagen.flow_from_directory(
+            val_data_iterator = val_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.training_dataset_path,
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.training_batch_size,
@@ -93,4 +76,4 @@ class GeneratorResolver:
                 shuffle=True
             )
 
-        return training_generator, test_generator, val_generator
+        return training_data_iterator, test_data_iterator, val_data_iterator
