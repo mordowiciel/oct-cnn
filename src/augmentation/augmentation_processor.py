@@ -40,7 +40,7 @@ class AugmentationProcessor:
             batch_iteration_count = self.__get_batch_iteration_count(image_class)
 
             if not os.path.exists(augmented_class_dir):
-                os.mkdir(augmented_class_dir)
+                os.makedirs(augmented_class_dir)
             else:
                 log.info(
                     'Directory for given image class already contains augmented data, '
