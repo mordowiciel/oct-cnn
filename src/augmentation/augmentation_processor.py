@@ -50,9 +50,10 @@ class AugmentationProcessor:
             dir_iterator = self.training_data_generator.flow_from_directory(
                 target_size=self.cfg.dataset.img_size,
                 directory=self.cfg.dataset.test_dataset_path,
-                classes=[image_class],
                 batch_size=self.cfg.augmentation.augmentation_batch_size,
+                classes=[image_class],
                 save_to_dir=augmented_class_dir,
+                save_format='jpeg',
                 seed=42,
                 shuffle=True
             )
