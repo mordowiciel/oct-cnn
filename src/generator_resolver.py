@@ -1,16 +1,31 @@
 from keras_preprocessing.image import ImageDataGenerator
 
+from augmentation.augmentation_preprocessor import AugmentationPreprocessor
+
 
 class GeneratorResolver:
 
     def __init__(self, cfg, generator_seed=42):
         self.cfg = cfg
         self.generator_seed = generator_seed
+        self.augmentation_preprocessor = AugmentationPreprocessor(cfg.augmentation)
 
     def provide_image_data_generators(self):
-        training_image_datagen = ImageDataGenerator(rescale=1. / 255)
+        if self.cfg.augmentation.use_data_augmentation:
+            training_image_datagen = ImageDataGenerator(
+                horizontal_flip=self.cfg.augmentation.horizontal_flip,
+                width_shift_range=self.cfg.augmentation.width_shift_range,
+                height_shift_range=self.cfg.augmentation.height_shift_range,
+                brightness_range=self.cfg.augmentation.brightness_range,
+                preprocessing_function=self.augmentation_preprocessor.preprocessing_chain,
+                rescale=1. / 255
+            )
+        else:
+            training_image_datagen = ImageDataGenerator(rescale=1. / 255)
+
         test_image_datagen = ImageDataGenerator(rescale=1. / 255)
         val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
+
         return training_image_datagen, test_image_datagen, val_image_datagen
 
     def resolve_data_iterators(self):
