@@ -22,14 +22,15 @@ if __name__ == '__main__':
     oct_logger.print_cfg()
 
     generator_resolver = GeneratorResolver(cfg)
-    training_image_data_generator, test_image_data_generator, val_image_data_generator = generator_resolver\
-        .provide_image_data_generators()
+    # training_image_data_generator, test_image_data_generator, val_image_data_generator = generator_resolver\
+    #     .provide_image_data_generators()
     training_data_iterator, test_data_iterator, val_data_iterator = generator_resolver.resolve_data_iterators()
 
     model_resolver = ModelResolver(cfg)
     model = model_resolver.resolve_model()
 
-    augmentation_processor = AugmentationProcessor(cfg, training_image_data_generator)
+    augmented_image_data_generator = generator_resolver.provide_augmented_image_data_generator()
+    augmentation_processor = AugmentationProcessor(cfg, augmented_image_data_generator)
     augmentation_processor.perform_data_augmentation()
 
     model_trainer = ModelTrainer(cfg, model, training_data_iterator, val_data_iterator, RUN_TIMESTAMP)

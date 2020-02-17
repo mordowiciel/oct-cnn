@@ -10,9 +10,8 @@ class GeneratorResolver:
         self.generator_seed = generator_seed
         self.augmentation_preprocessor = AugmentationPreprocessor(cfg.augmentation)
 
-    def provide_image_data_generators(self):
-        if self.cfg.augmentation.use_data_augmentation:
-            training_image_datagen = ImageDataGenerator(
+    def provide_augmented_image_data_generator(self):
+        return ImageDataGenerator(
                 horizontal_flip=self.cfg.augmentation.horizontal_flip,
                 width_shift_range=self.cfg.augmentation.width_shift_range,
                 height_shift_range=self.cfg.augmentation.height_shift_range,
@@ -20,9 +19,19 @@ class GeneratorResolver:
                 preprocessing_function=self.augmentation_preprocessor.preprocessing_chain,
                 rescale=1. / 255
             )
-        else:
-            training_image_datagen = ImageDataGenerator(rescale=1. / 255)
 
+    def provide_image_data_generators(self):
+        # if self.cfg.augmentation.use_data_augmentation:
+        #     training_image_datagen = ImageDataGenerator(
+        #         horizontal_flip=self.cfg.augmentation.horizontal_flip,
+        #         width_shift_range=self.cfg.augmentation.width_shift_range,
+        #         height_shift_range=self.cfg.augmentation.height_shift_range,
+        #         brightness_range=self.cfg.augmentation.brightness_range,
+        #         preprocessing_function=self.augmentation_preprocessor.preprocessing_chain,
+        #         rescale=1. / 255
+        #     )
+        # else:
+        training_image_datagen = ImageDataGenerator(rescale=1. / 255)
         test_image_datagen = ImageDataGenerator(rescale=1. / 255)
         val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
 
@@ -66,7 +75,7 @@ class GeneratorResolver:
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.training_batch_size,
                 interpolation='bilinear',
-                color_mode='grayscale',
+                color_mode='rgb',
                 subset='training',
                 seed=self.generator_seed,
                 shuffle=True
@@ -76,7 +85,7 @@ class GeneratorResolver:
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.test_batch_size,
                 interpolation='bilinear',
-                color_mode='grayscale',
+                color_mode='rgb',
                 seed=self.generator_seed,
                 shuffle=False
             )
@@ -85,7 +94,7 @@ class GeneratorResolver:
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.training_batch_size,
                 interpolation='bilinear',
-                color_mode='grayscale',
+                color_mode='rgb',
                 subset='validation',
                 seed=self.generator_seed,
                 shuffle=True
