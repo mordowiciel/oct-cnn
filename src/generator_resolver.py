@@ -75,7 +75,7 @@ class GeneratorResolver:
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.training_batch_size,
                 interpolation='bilinear',
-                color_mode='rgb',
+                color_mode='grayscale',
                 subset='training',
                 seed=self.generator_seed,
                 shuffle=True
@@ -85,7 +85,7 @@ class GeneratorResolver:
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.test_batch_size,
                 interpolation='bilinear',
-                color_mode='rgb',
+                color_mode='grayscale',
                 seed=self.generator_seed,
                 shuffle=False
             )
@@ -94,7 +94,7 @@ class GeneratorResolver:
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.training_batch_size,
                 interpolation='bilinear',
-                color_mode='rgb',
+                color_mode='grayscale',
                 subset='validation',
                 seed=self.generator_seed,
                 shuffle=True
