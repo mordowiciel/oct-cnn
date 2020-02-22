@@ -54,6 +54,7 @@ def FactorNet(input_shape, classes):
     model.add(Flatten())
     model.add(Dense(2048, activation='relu'))
     model.add(Dense(4096, activation='relu'))
+    model.add(Dense(4096, activation='relu'))
     model.add(Dense(classes, activation='softmax'))
 
     model.summary()
