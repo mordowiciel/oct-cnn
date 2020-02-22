@@ -2,7 +2,7 @@ from keras import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 
 
-def CustomNetOne(input_shape, classes):
+def FactorNet(input_shape, classes):
     model = Sequential()
 
     # Block 1 (3x3 convolution)
