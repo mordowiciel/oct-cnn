@@ -26,6 +26,12 @@ if __name__ == '__main__':
     #     .provide_image_data_generators()
     training_data_iterator, test_data_iterator, val_data_iterator = generator_resolver.resolve_data_iterators()
 
+    # f = open("val_generator_test_new.txt", "w+")
+    # f.write(str(val_data_iterator.filenames))
+    #
+    # f = open("train_generator_test_new.txt", "w+")
+    # f.write(str(training_data_iterator.filenames))
+
     model_resolver = ModelResolver(cfg)
     model = model_resolver.resolve_model()
 

@@ -31,14 +31,14 @@ class GeneratorResolver:
         #         rescale=1. / 255
         #     )
         # else:
-        training_image_datagen = ImageDataGenerator(rescale=1. / 255)
+        training_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
         test_image_datagen = ImageDataGenerator(rescale=1. / 255)
-        val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
+        # val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
 
-        return training_image_datagen, test_image_datagen, val_image_datagen
+        return training_image_datagen, test_image_datagen
 
     def resolve_data_iterators(self):
-        training_image_datagen, test_image_datagen, val_image_datagen = self.provide_image_data_generators()
+        training_image_datagen, test_image_datagen = self.provide_image_data_generators()
         if self.cfg.network.architecture == 'VGG-16-TL':
             training_data_iterator = training_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.training_dataset_path,
@@ -59,7 +59,7 @@ class GeneratorResolver:
                 seed=self.generator_seed,
                 shuffle=False
             )
-            val_data_iterator = val_image_datagen.flow_from_directory(
+            val_data_iterator = training_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.training_dataset_path,
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.training_batch_size,
@@ -89,7 +89,7 @@ class GeneratorResolver:
                 seed=self.generator_seed,
                 shuffle=False
             )
-            val_data_iterator = val_image_datagen.flow_from_directory(
+            val_data_iterator = training_image_datagen.flow_from_directory(
                 directory=self.cfg.dataset.training_dataset_path,
                 target_size=self.cfg.dataset.img_size,
                 batch_size=self.cfg.training.training_batch_size,
