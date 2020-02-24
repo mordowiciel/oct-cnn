@@ -62,8 +62,6 @@ class AugmentationProcessor:
                 i += 1
                 if i > batch_iteration_count:
                     break
-                # sys.stdout.write('\rProcessing batch %d of %d...' % (i, batch_iteration_count))
-                # sys.stdout.flush()
 
             self.__copy_augmented_data_to_training_dataset(image_class, augmented_class_dir)
             log.info('Augmenting data for class %s completed.' % image_class)

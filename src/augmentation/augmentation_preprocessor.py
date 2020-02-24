@@ -20,8 +20,6 @@ class AugmentationPreprocessor:
     def resolve_preprocessing_function_ref(self, function_name):
         return self.preprocessing_functions_ref_mapping[function_name]
 
-    # When using debug function, the image_arr already has the shape (x,y,3), so there is no need
-    # to perform image_arr.reshape() on provided array.
     def gaussian_noise(self, image_arr):
         random_var = random.uniform(self.augmentation_config.gaussian_noise_var_range[0],
                                     self.augmentation_config.gaussian_noise_var_range[1])
