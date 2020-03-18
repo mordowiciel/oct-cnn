@@ -21,7 +21,7 @@ class GeneratorResolver:
             )
 
     def provide_image_data_generators(self):
-        training_image_datagen = ImageDataGenerator(rescale=1. / 255)
+        training_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
         test_image_datagen = ImageDataGenerator(rescale=1. / 255)
         # val_image_datagen = ImageDataGenerator(rescale=1. / 255, validation_split=self.cfg.dataset.validation_split)
 
