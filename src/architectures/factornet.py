@@ -18,18 +18,18 @@ def FactorNet(input_shape, classes):
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='valid', name='maxpool_vertical_6'))
 
     ### Horizontal factorization N = 7 ###
-    model.add(Conv2D(filters=64, kernel_size=(7, 1), activation='relu', padding='valid', name='conv_horizontal_1'))
-    model.add(Conv2D(filters=64, kernel_size=(7, 1), activation='relu', padding='valid', name='conv_horizontal_2'))
-    model.add(Conv2D(filters=64, kernel_size=(7, 1), activation='relu', padding='valid', name='conv_horizontal_3'))
+    model.add(Conv2D(filters=128, kernel_size=(7, 1), activation='relu', padding='valid', name='conv_horizontal_1'))
+    model.add(Conv2D(filters=128, kernel_size=(7, 1), activation='relu', padding='valid', name='conv_horizontal_2'))
+    model.add(Conv2D(filters=128, kernel_size=(7, 1), activation='relu', padding='valid', name='conv_horizontal_3'))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='valid', name='maxpool_horizontal_3'))
 
     ### Horizontal factorization N = 5 ###
-    model.add(Conv2D(filters=64, kernel_size=(5, 1), activation='relu', padding='valid', name='conv_horizontal_4'))
-    model.add(Conv2D(filters=64, kernel_size=(5, 1), activation='relu', padding='valid', name='conv_horizontal_5'))
-    model.add(Conv2D(filters=64, kernel_size=(5, 1), activation='relu', padding='valid', name='conv_horizontal_6'))
+    model.add(Conv2D(filters=128, kernel_size=(5, 1), activation='relu', padding='valid', name='conv_horizontal_4'))
+    model.add(Conv2D(filters=128, kernel_size=(5, 1), activation='relu', padding='valid', name='conv_horizontal_5'))
+    model.add(Conv2D(filters=128, kernel_size=(5, 1), activation='relu', padding='valid', name='conv_horizontal_6'))
     model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='valid', name='maxpool_horizontal_6'))
 
-    ### 3x3 blocks ####
+    # ### 3x3 blocks ####
     model.add(Conv2D(filters=128, kernel_size=(3, 3), strides=(1, 1), padding='same', activation='relu'))
     model.add(Conv2D(filters=128, kernel_size=(3, 3), strides=(1, 1), padding='same', activation='relu'))
     model.add(Conv2D(filters=128, kernel_size=(3, 3), strides=(1, 1), padding='same', activation='relu'))
