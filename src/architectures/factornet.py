@@ -1,5 +1,6 @@
 from keras import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+
 
 def FactorNet(input_shape, classes):
     model = Sequential()
@@ -32,7 +33,9 @@ def FactorNet(input_shape, classes):
     # Fully connected layers
     model.add(Flatten())
     model.add(Dense(4096, activation='relu'))
+    model.add(Dropout(0.4))
     model.add(Dense(4096, activation='relu'))
+    model.add(Dropout(0.4))
     model.add(Dense(classes, activation='softmax'))
 
     return model
